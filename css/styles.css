@@ -2,9 +2,16 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html {
     font-family: "Roboto", sans-serif;
-    background: #fff0c0;
+    background: url("../assets/fitness-center.jpg") no-repeat center center
+        fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: white;
 }

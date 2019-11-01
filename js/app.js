@@ -50,10 +50,9 @@ class Routine {
 }
 
 class Activity {
-    constructor(startTime, endTime, bodyWeight, routineId, actions) {
+    constructor(startTime, endTime, routineId, actions) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.bodyWeight = bodyWeight
         this.routineId = routineId;
         this.actions = actions || [];
     }
@@ -188,18 +187,18 @@ class Profile {
         console.log("Seeding previous actions");
         this.previousActions = [
             new Action(this.getExerciseIdByName(ExerciseEnum.CARDIO_1.name), 7),
-            new Action(this.getExerciseIdByName(ExerciseEnum.MISC_1.name), 8),
+            new Action(this.getExerciseIdByName(ExerciseEnum.MISC_1.name), 10),
             new Action(this.getExerciseIdByName(ExerciseEnum.CHEST_1.name), null, [
-                new WeightReps(115, 10),
-                new WeightReps(115, 10),
-                new WeightReps(115, 10),
-                new WeightReps(115, 10)
+                new WeightReps(117.5, 10),
+                new WeightReps(117.5, 10),
+                new WeightReps(117.5, 10),
+                new WeightReps(117.5, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.CHEST_2.name), null, [
-                new WeightReps(70, 10),
-                new WeightReps(70, 10),
-                new WeightReps(70, 10),
-                new WeightReps(70, 10)
+                new WeightReps(72.5, 10),
+                new WeightReps(72.5, 10),
+                new WeightReps(72.5, 10),
+                new WeightReps(72.5, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.CHEST_3.name), null, [
                 new WeightReps(115, 10),
@@ -208,24 +207,24 @@ class Profile {
                 new WeightReps(115, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.CHEST_4.name), null, [
-                new WeightReps(115, 10),
-                new WeightReps(115, 10),
-                new WeightReps(115, 10)
+                new WeightReps(117.5, 10),
+                new WeightReps(117.5, 10),
+                new WeightReps(117.5, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.CHEST_5.name), null, [
-                new WeightReps(19, 10),
-                new WeightReps(19, 10),
-                new WeightReps(19, 10)
+                new WeightReps(20.5, 10),
+                new WeightReps(20.5, 10),
+                new WeightReps(20.5, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.TRICEPS_1.name), null, [
-                new WeightReps(37.5, 10),
-                new WeightReps(37.5, 10),
-                new WeightReps(37.5, 10)
+                new WeightReps(39, 10),
+                new WeightReps(39, 10),
+                new WeightReps(39, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.TRICEPS_2.name), null, [
-                new WeightReps(175, 10),
-                new WeightReps(175, 10),
-                new WeightReps(175, 10)
+                new WeightReps(180, 10),
+                new WeightReps(180, 10),
+                new WeightReps(180, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.BACK_1.name), null, [
                 new WeightReps(115, 10),
@@ -234,16 +233,16 @@ class Profile {
                 new WeightReps(115, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.BACK_2.name), null, [
-                new WeightReps(182.5, 10),
-                new WeightReps(182.5, 10),
-                new WeightReps(182.5, 10),
-                new WeightReps(182.5, 10)
+                new WeightReps(185, 10),
+                new WeightReps(185, 10),
+                new WeightReps(185, 10),
+                new WeightReps(185, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.BACK_3.name), null, [
-                new WeightReps(95, 10),
-                new WeightReps(95, 10),
-                new WeightReps(95, 10),
-                new WeightReps(95, 10)
+                new WeightReps(97.5, 10),
+                new WeightReps(97.5, 10),
+                new WeightReps(97.5, 10),
+                new WeightReps(97.5, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.BACK_4.name), null, [
                 new WeightReps(40, 10),
@@ -281,44 +280,44 @@ class Profile {
                 new WeightReps(10, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.SHOULDERS_3.name), null, [
-                new WeightReps(50, 10),
-                new WeightReps(50, 10),
-                new WeightReps(50, 10)
+                new WeightReps(55, 10),
+                new WeightReps(55, 10),
+                new WeightReps(55, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_1.name), null, [
-                new WeightReps(165, 10),
-                new WeightReps(165, 10),
-                new WeightReps(165, 10)
+                new WeightReps(170, 10),
+                new WeightReps(170, 10),
+                new WeightReps(170, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_2.name), null, [
+                new WeightReps(85, 10),
+                new WeightReps(85, 10),
+                new WeightReps(85, 10)
+            ]),
+            new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_3.name), null, [
                 new WeightReps(80, 10),
                 new WeightReps(80, 10),
                 new WeightReps(80, 10)
             ]),
-            new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_3.name), null, [
-                new WeightReps(75, 10),
-                new WeightReps(75, 10),
-                new WeightReps(75, 10)
-            ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_4.name), null, [
-                new WeightReps(165, 10),
-                new WeightReps(165, 10),
-                new WeightReps(165, 10)
+                new WeightReps(170, 10),
+                new WeightReps(170, 10),
+                new WeightReps(170, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_5.name), null, [
-                new WeightReps(190, 10),
-                new WeightReps(190, 10),
-                new WeightReps(190, 10)
+                new WeightReps(195, 10),
+                new WeightReps(195, 10),
+                new WeightReps(195, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_6.name), null, [
-                new WeightReps(155, 10),
-                new WeightReps(155, 10),
-                new WeightReps(155, 10)
+                new WeightReps(160, 10),
+                new WeightReps(160, 10),
+                new WeightReps(160, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_7.name), null, [
-                new WeightReps(115, 10),
-                new WeightReps(115, 10),
-                new WeightReps(115, 10)
+                new WeightReps(120, 10),
+                new WeightReps(120, 10),
+                new WeightReps(120, 10)
             ]),
             new Action(this.getExerciseIdByName(ExerciseEnum.CORE_1.name), null, [
                 new WeightReps(35, 25),
@@ -380,7 +379,7 @@ class Profile {
 
     createActivity(routineId) {
         var time = new Date();
-        this.activities.push(new Activity(time, null, null, routineId, []));
+        this.activities.push(new Activity(time, null, routineId, []));
         Profile.activityTimer(time);
     }
 
@@ -418,7 +417,7 @@ class Profile {
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
         const day = date.getDate();
-        return (month + "/" + day + "/" + year); 
+        return (month + "/" + day + "/" + year);
     }
 }
 
