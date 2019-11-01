@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <title>Testing</title>
+
+        <link rel="stylesheet" href="assets/styles.css" />
+
+        <link
+            href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
+    </head>
+    <body>
+        <!--Main-->
+        <h1>Testing Functionality!</h1>
+        <div id="main">
+            <button type="button" onclick="Profile.activityTimer(new Date())">
+                Timer Start
+            </button>
+            <button type="button" onclick="Profile.stopActivityTimer()">
+                Timer Stop
+            </button>
+        </div>
+
+        <!--Body Scripts-->
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            type="text/javascript"
+            src="assets/app.js"
+            type="module"
+        ></script>
+    </body>
+</html>

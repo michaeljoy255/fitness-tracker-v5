@@ -1,0 +1,10 @@
+/* General */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: "Roboto", sans-serif;
+    background: #fff0c0;
+}
