@@ -9,7 +9,7 @@ const ExerciseEnum = Object.freeze({
     DECLINE_BENCH_PRESS: "Decline Bench Press",
     FLY_MACHINE_CHEST: "Fly Machine (Chest)",
     CABLE_CHEST_SIDE_PULLS: "Cable Chest Side Pulls",
-    CABLE_ROPE_PULLDOWNS: "Cable Rope Pulldowns",
+    CABLE_TRICEP_PULLDOWNS: "Cable Tricep Pulldowns",
     TRICEP_PRESS_MACHINE: "Tricep Press Machine",
     BENT_OVER_ROWS: "Bent Over Rows",
     SHRUGS: "Shrugs",
@@ -20,7 +20,7 @@ const ExerciseEnum = Object.freeze({
     HAMMER_CURLS: "Hammer Curls",
     OVERHAND_CURLS: "Overhand Curls",
     SIDE_RAISES: "Side Raises",
-    FRONT_RAISE: "Front Raises",
+    FRONT_RAISES: "Front Raises",
     SHOULDER_PRESS_MACHINE: "Shoulder Press Machine",
     LEG_PRESS_MACHINE: "Leg Press Machine",
     LEG_EXTENSION_MACHINE: "Leg Extension Machine",
@@ -58,7 +58,57 @@ const IntensityEnum = Object.freeze({
     MAX: "Maxed",
 });
 
-// CLASSES & FUNCTIONS #########################################################
+// CLASSES #####################################################################
+// View manipulation and general functions
+class View {
+    constructor() {
+
+    }
+
+    // Tracks time for current activity
+    static activityTimer(startTime) {
+        const now = new Date();
+        const timeDiff = (now - startTime);
+        const secsPerDay = 60 * 60 * 1000 * 24;
+        const secsPerHour = 60 * 60 * 1000;
+            
+        let hours = Math.floor((timeDiff % (secsPerDay)) / (secsPerHour) * 1);
+        let mins = Math.floor(((timeDiff % (secsPerDay)) % (secsPerHour)) / (60 * 1000) * 1);
+        let secs = Math.floor((((timeDiff % (secsPerDay)) % (secsPerHour)) % (60 * 1000)) / 1000 * 1);
+
+        hours = hours.toString().padStart(2, '0');
+        mins = mins.toString().padStart(2, '0');
+        secs = secs.toString().padStart(2, '0');
+        // @TODO - use start and end times in AppData so you can control when to print
+        //document.getElementById('timer').innerHTML = hours + ":" + mins + ":" + secs;
+
+        console.log(hours, mins, secs); // @TODO - remove this
+
+        clearTimeout(this.activityTimer.interval);
+        this.activityTimer.interval = setTimeout(() => { this.activityTimer(startTime) }, 1000);
+    }
+
+    static stopActivityTimer() {
+        clearTimeout(this.activityTimer.interval);
+        console.log("Stopped activity timer");
+    }
+
+    // Returns date string formatted like MM/DD/YYYY
+    static getFormattedDate() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return (month + "/" + day + "/" + year);
+    }
+
+    // Returns string formatted like 1H 7M 32S
+    static getFormattedTime() {
+        // @TODO - implement!
+        return "";
+    }
+}
+
 // Used to define properties of an exercise (UI componets, inputs, etc)
 class Exercise {
     constructor(name, category, desc, breaksTag, tempoTag, intensityTag, 
@@ -143,84 +193,37 @@ class Profile {
         this.idCounter = 1000;
     }
 
-    // STATIC METHODS ----------------------------------------------------------
-    // Tracks time for current activity
-    static activityTimer(startTime) {
-        const now = new Date();
-        const timeDiff = (now - startTime);
-        const secsPerDay = 60 * 60 * 1000 * 24;
-        const secsPerHour = 60 * 60 * 1000;
-            
-        let hours = Math.floor((timeDiff % (secsPerDay)) / (secsPerHour) * 1);
-        let mins = Math.floor(((timeDiff % (secsPerDay)) % (secsPerHour)) / (60 * 1000) * 1);
-        let secs = Math.floor((((timeDiff % (secsPerDay)) % (secsPerHour)) % (60 * 1000)) / 1000 * 1);
-
-        hours = hours.toString().padStart(2, '0');
-        mins = mins.toString().padStart(2, '0');
-        secs = secs.toString().padStart(2, '0');
-        // @TODO - use start and end times in AppData so you can control when to print
-        //document.getElementById('timer').innerHTML = hours + ":" + mins + ":" + secs;
-
-        console.log(hours, mins, secs); // @TODO - remove this
-
-        clearTimeout(this.activityTimer.interval);
-        this.activityTimer.interval = setTimeout(() => { this.activityTimer(startTime) }, 1000);
-    }
-
-    static stopActivityTimer() {
-        clearTimeout(this.activityTimer.interval);
-        console.log("Stopped activity timer");
-    }
-
-    // Returns date string formatted like MM/DD/YYYY
-    static getFormattedDate() {
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        return (month + "/" + day + "/" + year);
-    }
-
-    // Returns string formatted like 1H 7M 32S
-    static getFormattedTime() {
-        return "";
-    }
-
-    // OTHER METHODS -----------------------------------------------------------
-    addExercise(...args) {
-        this.exercises.set(this.idCounter, new Exercise(...args));
+    addExercise(...exerciseParams) {
+        this.exercises.set(this.idCounter, new Exercise(...exerciseParams));
         this.idCounter++;
     }
 
-    addRoutine(...args) {
-        this.routines.set(this.idCounter, new Routine(...args));
+    addRoutine(...routineParams) {
+        this.routines.set(this.idCounter, new Routine(...routineParams));
         this.idCounter++;
     }
 
-    addActivity(...args) {
-        this.activities.set(this.idCounter, new Activity(...args));
+    addActivity(...activityParams) {
+        this.activities.set(this.idCounter, new Activity(...activityParams));
         this.idCounter++;
-
-        var time = new Date();
-        this.activities.push(new Activity(time, null, routineId, []));
-        Profile.activityTimer(time);
+        console.log("Starting activity timer");
+        Profile.activityTimer(new Date());
     }
 
-    addRecord(...args) {
-        this.records.set(this.idCounter, new Record(...args));
+    addRecord(...recordParams) {
+        this.records.set(this.idCounter, new Record(...recordParams));
         this.idCounter++;
     }
 
-    addMeasurement(...args) {
-        this.measurements.set(this.idCounter, new Measurement(...args));
+    addMeasurement(...measurementParams) {
+        this.measurements.set(this.idCounter, new Measurement(...measurementParams));
         this.idCounter++;
     }
 
-    getExerciseIdByName(name){
-        // @TODO - better way of getting ID (truely understand your code!)
-        for(let exer of this.exercises[Symbol.iterator]()) {
-            if(exer[1].name === name) {
-                return exer[0]; // returns map key
+    getExerciseIdByName(exerciseName){
+        for(let exerKey of this.exercises.keys()) {
+            if (this.exercises.get(exerKey).name === exerciseName) {
+                return exerKey;
             }
         }
     }
@@ -237,7 +240,7 @@ class Profile {
         this.addExercise(ExerciseEnum.DECLINE_BENCH_PRESS, CategoryEnum.CHEST, ...seedWeight);
         this.addExercise(ExerciseEnum.FLY_MACHINE_CHEST, CategoryEnum.CHEST, ...seedWeight);
         this.addExercise(ExerciseEnum.CABLE_CHEST_SIDE_PULLS, CategoryEnum.CHEST, ...seedWeight);
-        this.addExercise(ExerciseEnum.CABLE_ROPE_PULLDOWNS, CategoryEnum.TRICEPS, ...seedWeight);
+        this.addExercise(ExerciseEnum.CABLE_TRICEP_PULLDOWNS, CategoryEnum.TRICEPS, ...seedWeight);
         this.addExercise(ExerciseEnum.TRICEP_PRESS_MACHINE, CategoryEnum.TRICEPS, ...seedWeight);
         this.addExercise(ExerciseEnum.BENT_OVER_ROWS, CategoryEnum.BACK, ...seedWeight);
         this.addExercise(ExerciseEnum.SHRUGS, CategoryEnum.BACK, ...seedWeight);
@@ -248,7 +251,7 @@ class Profile {
         this.addExercise(ExerciseEnum.HAMMER_CURLS, CategoryEnum.BICEPS, ...seedWeight);
         this.addExercise(ExerciseEnum.OVERHAND_CURLS, CategoryEnum.BICEPS, ...seedWeight);
         this.addExercise(ExerciseEnum.SIDE_RAISES, CategoryEnum.SHOULDERS, ...seedWeight);
-        this.addExercise(ExerciseEnum.FRONT_RAISE, CategoryEnum.SHOULDERS, ...seedWeight);
+        this.addExercise(ExerciseEnum.FRONT_RAISES, CategoryEnum.SHOULDERS, ...seedWeight);
         this.addExercise(ExerciseEnum.SHOULDER_PRESS_MACHINE, CategoryEnum.SHOULDERS, ...seedWeight);
         this.addExercise(ExerciseEnum.LEG_PRESS_MACHINE, CategoryEnum.LEGS, ...seedWeight);
         this.addExercise(ExerciseEnum.LEG_EXTENSION_MACHINE, CategoryEnum.LEGS, ...seedWeight);
@@ -270,7 +273,7 @@ class Profile {
             this.getExerciseIdByName(ExerciseEnum.DECLINE_BENCH_PRESS),
             this.getExerciseIdByName(ExerciseEnum.FLY_MACHINE_CHEST),
             this.getExerciseIdByName(ExerciseEnum.CABLE_CHEST_SIDE_PULLS),
-            this.getExerciseIdByName(ExerciseEnum.CABLE_ROPE_PULLDOWNS),
+            this.getExerciseIdByName(ExerciseEnum.CABLE_TRICEP_PULLDOWNS),
             this.getExerciseIdByName(ExerciseEnum.TRICEP_PRESS_MACHINE),
             this.getExerciseIdByName(ExerciseEnum.STRETCHING)
         ]);
@@ -289,7 +292,7 @@ class Profile {
         this.addRoutine("Legs, Shoulders, and Core", [
             this.getExerciseIdByName(ExerciseEnum.ELLIPTICAL),
             this.getExerciseIdByName(ExerciseEnum.SIDE_RAISES),
-            this.getExerciseIdByName(ExerciseEnum.FRONT_RAISE),
+            this.getExerciseIdByName(ExerciseEnum.FRONT_RAISES),
             this.getExerciseIdByName(ExerciseEnum.SHOULDER_PRESS_MACHINE),
             this.getExerciseIdByName(ExerciseEnum.LEG_PRESS_MACHINE),
             this.getExerciseIdByName(ExerciseEnum.LEG_EXTENSION_MACHINE),
@@ -310,157 +313,155 @@ class Profile {
 
     seedExampleRecords() {
         console.log("Seeding records");
-        // @TODO - decide how to handle sets (as an array, set, map, or something else...)
-        // @TODO - convert this over to the next version on github (use current v5???)
         this.addRecord(this.getExerciseIdByName(ExerciseEnum.ELLIPTICAL), null, 420, "", []);
-
-        /*
-        new Action(this.getExerciseIdByName(ExerciseEnum.CARDIO_1.name), 7),
-        new Action(this.getExerciseIdByName(ExerciseEnum.MISC_1.name), 10),
-        new Action(this.getExerciseIdByName(ExerciseEnum.CHEST_1.name), null, [
-            new WeightReps(117.5, 10),
-            new WeightReps(117.5, 10),
-            new WeightReps(117.5, 10),
-            new WeightReps(117.5, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.CHEST_2.name), null, [
-            new WeightReps(72.5, 10),
-            new WeightReps(72.5, 10),
-            new WeightReps(72.5, 10),
-            new WeightReps(72.5, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.CHEST_3.name), null, [
-            new WeightReps(115, 10),
-            new WeightReps(115, 10),
-            new WeightReps(115, 10),
-            new WeightReps(115, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.CHEST_4.name), null, [
-            new WeightReps(117.5, 10),
-            new WeightReps(117.5, 10),
-            new WeightReps(117.5, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.CHEST_5.name), null, [
-            new WeightReps(20.5, 10),
-            new WeightReps(20.5, 10),
-            new WeightReps(20.5, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.TRICEPS_1.name), null, [
-            new WeightReps(39, 10),
-            new WeightReps(39, 10),
-            new WeightReps(39, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.TRICEPS_2.name), null, [
-            new WeightReps(180, 10),
-            new WeightReps(180, 10),
-            new WeightReps(180, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.BACK_1.name), null, [
-            new WeightReps(115, 10),
-            new WeightReps(115, 10),
-            new WeightReps(115, 10),
-            new WeightReps(115, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.BACK_2.name), null, [
-            new WeightReps(185, 10),
-            new WeightReps(185, 10),
-            new WeightReps(185, 10),
-            new WeightReps(185, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.BACK_3.name), null, [
-            new WeightReps(97.5, 10),
-            new WeightReps(97.5, 10),
-            new WeightReps(97.5, 10),
-            new WeightReps(97.5, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.BACK_4.name), null, [
-            new WeightReps(40, 10),
-            new WeightReps(40, 10),
-            new WeightReps(40, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.BACK_5.name), null, [
-            new WeightReps(80, 10),
-            new WeightReps(80, 10),
-            new WeightReps(80, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.BICEPS_1.name), null, [
-            new WeightReps(50, 10),
-            new WeightReps(50, 10),
-            new WeightReps(50, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.BICEPS_2.name), null, [
-            new WeightReps(25, 10),
-            new WeightReps(25, 10),
-            new WeightReps(25, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.BICEPS_3.name), null, [
-            new WeightReps(30, 10),
-            new WeightReps(30, 10),
-            new WeightReps(30, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.SHOULDERS_1.name), null, [
-            new WeightReps(10, 10),
-            new WeightReps(10, 10),
-            new WeightReps(10, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.SHOULDERS_2.name), null, [
-            new WeightReps(10, 10),
-            new WeightReps(10, 10),
-            new WeightReps(10, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.SHOULDERS_3.name), null, [
-            new WeightReps(55, 10),
-            new WeightReps(55, 10),
-            new WeightReps(55, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_1.name), null, [
-            new WeightReps(170, 10),
-            new WeightReps(170, 10),
-            new WeightReps(170, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_2.name), null, [
-            new WeightReps(85, 10),
-            new WeightReps(85, 10),
-            new WeightReps(85, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_3.name), null, [
-            new WeightReps(80, 10),
-            new WeightReps(80, 10),
-            new WeightReps(80, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_4.name), null, [
-            new WeightReps(170, 10),
-            new WeightReps(170, 10),
-            new WeightReps(170, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_5.name), null, [
-            new WeightReps(195, 10),
-            new WeightReps(195, 10),
-            new WeightReps(195, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_6.name), null, [
-            new WeightReps(160, 10),
-            new WeightReps(160, 10),
-            new WeightReps(160, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.LEGS_7.name), null, [
-            new WeightReps(120, 10),
-            new WeightReps(120, 10),
-            new WeightReps(120, 10)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.CORE_1.name), null, [
-            new WeightReps(35, 25),
-            new WeightReps(35, 25),
-            new WeightReps(35, 25),
-            new WeightReps(35, 25)
-        ]),
-        new Action(this.getExerciseIdByName(ExerciseEnum.CORE_2.name), null, [
-            new WeightReps(45, 25),
-            new WeightReps(45, 25),
-            new WeightReps(45, 25),
-            new WeightReps(45, 25)
-        ]),
-        */
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.STRETCHING), null, 480, "", []);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.FLAT_BENCH_PRESS), null, null, "", [
+            new ASet(120, 10),
+            new ASet(120, 10),
+            new ASet(120, 10),
+            new ASet(120, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.INCLINE_BENCH_PRESS), null, null, "", [
+            new ASet(72.5, 10),
+            new ASet(72.5, 10),
+            new ASet(72.5, 10),
+            new ASet(72.5, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.DECLINE_BENCH_PRESS), null, null, "", [
+            new ASet(120, 10),
+            new ASet(120, 10),
+            new ASet(120, 10),
+            new ASet(120, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.FLY_MACHINE_CHEST), null, null, "", [
+            new ASet(120, 10),
+            new ASet(120, 10),
+            new ASet(120, 10),
+            new ASet(120, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.CABLE_CHEST_SIDE_PULLS), null, null, "", [
+            new ASet(22.5, 10),
+            new ASet(22.5, 10),
+            new ASet(22.5, 10),
+            new ASet(22.5, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.CABLE_TRICEP_PULLDOWNS), null, null, "", [
+            new ASet(40, 10),
+            new ASet(40, 10),
+            new ASet(40, 10),
+            new ASet(40, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.TRICEP_PRESS_MACHINE), null, null, "", [
+            new ASet(185, 10),
+            new ASet(185, 10),
+            new ASet(185, 10),
+            new ASet(185, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.BENT_OVER_ROWS), null, null, "", [
+            new ASet(117.5, 10),
+            new ASet(117.5, 10),
+            new ASet(117.5, 10),
+            new ASet(117.5, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.SHRUGS), null, null, "", [
+            new ASet(187.5, 10),
+            new ASet(187.5, 10),
+            new ASet(187.5, 10),
+            new ASet(187.5, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.STIFF_LEG_DEADLIFTS), null, null, "", [
+            new ASet(100, 10),
+            new ASet(100, 10),
+            new ASet(100, 10),
+            new ASet(100, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.ASSISTED_PULL_UPS), null, null, "", [
+            new ASet(30, 10),
+            new ASet(30, 10),
+            new ASet(30, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.FLY_MACHINE_BACK), null, null, "", [
+            new ASet(70, 12),
+            new ASet(70, 12),
+            new ASet(70, 12)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.OVERHAND_CURLS), null, null, "", [
+            new ASet(30, 10),
+            new ASet(30, 10),
+            new ASet(30, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.UNDERHAND_CURLS), null, null, "", [
+            new ASet(25, 10),
+            new ASet(25, 10),
+            new ASet(25, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.HAMMER_CURLS), null, null, "", [
+            new ASet(25, 10),
+            new ASet(25, 10),
+            new ASet(25, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.SIDE_RAISES), null, null, "", [
+            new ASet(10, 10),
+            new ASet(10, 10),
+            new ASet(10, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.FRONT_RAISES), null, null, "", [
+            new ASet(10, 10),
+            new ASet(10, 10),
+            new ASet(10, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.SHOULDER_PRESS_MACHINE), null, null, "", [
+            new ASet(55, 10),
+            new ASet(55, 10),
+            new ASet(55, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.LEG_PRESS_MACHINE), null, null, "", [
+            new ASet(170, 10),
+            new ASet(170, 10),
+            new ASet(170, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.LEG_EXTENSION_MACHINE), null, null, "", [
+            new ASet(85, 10),
+            new ASet(85, 10),
+            new ASet(85, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.LEG_CURL_MACHINE), null, null, "", [
+            new ASet(80, 10),
+            new ASet(80, 10),
+            new ASet(80, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.CALF_EXTENSION_MACHINE), null, null, "", [
+            new ASet(170, 10),
+            new ASet(170, 10),
+            new ASet(170, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.HIP_ABDUCTION_MACHINE), null, null, "", [
+            new ASet(195, 10),
+            new ASet(195, 10),
+            new ASet(195, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.HIP_ADDUCTION_MACHINE), null, null, "", [
+            new ASet(160, 10),
+            new ASet(160, 10),
+            new ASet(160, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.STANDING_GLUTE_MACHINE), null, null, "", [
+            new ASet(120, 10),
+            new ASet(120, 10),
+            new ASet(120, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.ABDOMINAL_CRUNCH_MACHINE), null, null, "", [
+            new ASet(35, 25),
+            new ASet(35, 25),
+            new ASet(35, 25),
+            new ASet(35, 25)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.OBLIQUE_SIDE_BEND), null, null, "", [
+            new ASet(45, 25),
+            new ASet(45, 25),
+            new ASet(45, 25),
+            new ASet(45, 25)
+        ]);
     }
 }
 
