@@ -7,7 +7,7 @@
 
 html {
     font-family: "Roboto", sans-serif;
-    background-color: #1e1c20;
+    background-color: #1b181f;
     color: #f5f4f1;
 }
 
@@ -33,10 +33,11 @@ section {
     justify-content: space-between;
     align-items: center;
     background-color: #2a2a2c;
-    border: 1px solid #353536;
+    border: 1px solid #161616;
     border-radius: 6px;
     width: 100%;
     padding: 10px;
+    margin-bottom: 10px;
 }
 
 /* Home */
@@ -65,7 +66,80 @@ div.routines {
 }
 
 /* Activity */
+header {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #3f51b5;
+    padding: 10px 20px 10px 20px;
+}
+
+header span {
+    display: flex;
+    align-items: center;
+}
+
 div.activity {
     height: 100vh;
+    padding: 54px 10px 10px 10px;
+}
+
+section.routine {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+section.exercise {
+    display: flex;
+    flex-direction: column;
+}
+
+div.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+span.category {
+    text-transform: uppercase;
+    font-size: 14px;
+    opacity: 0.25;
+}
+
+section hr {
+    width: 100%;
+    margin: 5px 0 5px 0;
+    opacity: 0.25;
+}
+
+div.tags {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+div.inputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #222222;
+    border-radius: 4px;
+    background-color: #3d3d42;
     padding: 10px;
+    color: #f5f4f1;
 }

@@ -77,10 +77,8 @@ class View {
         hours = hours.toString().padStart(2, '0');
         mins = mins.toString().padStart(2, '0');
         secs = secs.toString().padStart(2, '0');
-        // @TODO - use start and end times in AppData so you can control when to print
-        //document.getElementById('timer').innerHTML = hours + ":" + mins + ":" + secs;
 
-        console.log(hours, mins, secs); // @TODO - remove this
+        document.querySelector('#timer').innerHTML = `${hours}:${mins}:${secs}`;
 
         clearTimeout(this.activityTimer.interval);
         this.activityTimer.interval = setTimeout(() => { this.activityTimer(startTime) }, 1000);
@@ -92,7 +90,7 @@ class View {
     }
 
     // Returns date string formatted like MM/DD/YYYY
-    static getFormattedDateString() {
+    static getDateString() {
         const date = new Date();
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
@@ -101,7 +99,7 @@ class View {
     }
 
     // Returns string formatted like 1H 7M 32S
-    static getFormattedTimeString() {
+    static getTimeString() {
         // @TODO - implement!
         return "";
     }
@@ -120,28 +118,71 @@ class View {
         let divRoutines = `<div class="routines">${title}${btns}</div>`;
         let section = `<section class="home">${divRoutines}${footer}</section>`;
 
-        let target = document.querySelector('div.home');
-        target.innerHTML = section; // Page HTML now exists
+        // Set Home page HTML
+        document.querySelector('div.home').innerHTML = section; 
 
-        // Add listeners for each routine button click once HTML exists
+        // Click listeners for each routine button - added once HTML exists
         user.routines.forEach( (rout, id) => {
-            document.getElementById(`routine${id}`)
-                .addEventListener("click", () => {
-                    window.location.href = `activity.html?routine=${id}`;
-                });
+            document.querySelector(`#routine${id}`).addEventListener("click", () => {
+                window.location.href = `activity.html?routine=${id}`;
+            });
         });
     }
 
     // ACTIVITY PAGE
-    static buildActivityPage(user) {
-        /*
-        @TODO - implement this!
-                Navbar for activity page with: Cancel  Date  Timer
-                Loading home page when canceling a routine
-                Basic layout for routine exercises (CSS)
-        */
-        let target = document.querySelector('div.activity');
-        target.innerHTML = "WIP"; // Sets page HTML
+    static buildActivityPage(user, routineId) {
+        // Set date HTML and start activity timer
+        document.querySelector('#date').innerHTML = View.getDateString();
+        View.activityTimer(new Date());
+
+        // Routine as title at top
+        let routine = `<section class='routine'>
+            <i class="material-icons">fitness_center</i>
+            ${user.getRoutineById(routineId).name}
+            <i class="material-icons">fitness_center</i>
+        </section>`;
+   
+        // Build exercise sections HTML
+        let exerciseSections = "";
+        let tags = "";
+        let inputs = "";
+
+        user.getRoutineById(routineId).exerciseIds.forEach( exerId => {
+            tags = "WIP: Icons for the current exercise..."
+            inputs = "WIP: Inputs like duration or sets..."
+            exerciseSections += `<section class='exercise'>
+                <div class='top'>
+                    <span>${user.getExerciseById(exerId).name}</span>
+                    <span class='category'>${user.getExerciseById(exerId).category}</span>
+                </div>
+                <hr />
+                <div class='tags'>
+                    ${tags}
+                </div>
+                <div class='inputs'>
+                    ${inputs}
+                </div>
+            </section>`;
+        });
+
+        // Finish button and textarea
+        let footer = `<section>
+            <a href="#" class="btn" onclick="alert('Clicked!')">Finish Activity - To Clipboard</a>
+            <textarea id="results"></textarea>
+        </section>`;
+
+        let allSections = routine + exerciseSections + footer;
+
+        // Set Activity page HTML
+        document.querySelector('div.activity').innerHTML = allSections;
+
+        // Click listener for cancel activity button
+        document.querySelector("#cancel").addEventListener("click", () => {
+            if (confirm("Discard this activity and return to the Home page?")){
+                View.stopActivityTimer();
+                window.location.href = "index.html";
+            };
+        });
     }
 }
 
@@ -262,6 +303,14 @@ class Profile {
                 return exerKey;
             }
         }
+    }
+
+    getExerciseById(exerciseId){
+        return this.exercises.get(Number(exerciseId));
+    }
+
+    getRoutineById(routineId){
+        return this.routines.get(Number(routineId));
     }
 
     seedExampleExercises() {
@@ -499,8 +548,9 @@ document.addEventListener("DOMContentLoaded", (e) => {
     // Query url to determine which page to load
     const urlParams = new URLSearchParams(window.location.search);
     const routineParam = urlParams.get('routine');
+
     if (routineParam) {
-        View.buildActivityPage(user);
+        View.buildActivityPage(user, routineParam);
     } else {
         View.buildHomePage(user);
     }
