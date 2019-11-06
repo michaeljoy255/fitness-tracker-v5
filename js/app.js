@@ -61,9 +61,7 @@ const IntensityEnum = Object.freeze({
 // CLASSES #####################################################################
 // View manipulation and general functions
 class View {
-    constructor() {
-
-    }
+    constructor() {}
 
     // Tracks time for current activity
     static activityTimer(startTime) {
@@ -94,7 +92,7 @@ class View {
     }
 
     // Returns date string formatted like MM/DD/YYYY
-    static getFormattedDate() {
+    static getFormattedDateString() {
         const date = new Date();
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
@@ -103,9 +101,47 @@ class View {
     }
 
     // Returns string formatted like 1H 7M 32S
-    static getFormattedTime() {
+    static getFormattedTimeString() {
         // @TODO - implement!
         return "";
+    }
+
+    // HOME PAGE
+    static buildHomePage(user) {
+        let footer = "<p>WIP Fitness Tracker v5 ~ Michael J</p>";
+        let title = "<h1 class='title'>Fitness Tracker</h1>";
+        let btns = "";
+
+        // Build routine buttons HTML
+        user.routines.forEach( (rout, id) => {
+            btns += `<a href='#' class='btn' id='routine${id}'>${rout.name}</a>`;
+        });
+
+        let divRoutines = `<div class="routines">${title}${btns}</div>`;
+        let section = `<section class="home">${divRoutines}${footer}</section>`;
+
+        let target = document.querySelector('div.home');
+        target.innerHTML = section; // Sets page HTML
+
+        // Add listeners for each routine button click once HTML exists
+        user.routines.forEach( (rout, id) => {
+            document.getElementById(`routine${id}`)
+                .addEventListener("click", () => {
+                    window.location.href = `activity.html?routine=${id}`;
+                });
+        });
+    }
+
+    // ACTIVITY PAGE
+    static buildActivityPage(user) {
+        /*
+        @TODO - implement this!
+                Navbar for activity page with: Cancel  Date  Timer
+                Loading home page when canceling a routine
+                Basic layout for routine exercises (CSS)
+        */
+        let target = document.querySelector('div.activity');
+        target.innerHTML = "WIP"; // Sets page HTML
     }
 }
 
@@ -471,6 +507,14 @@ document.addEventListener("DOMContentLoaded", (e) => {
     user.seedExampleExercises();
     user.seedExampleRoutines();
     user.seedExampleRecords();
-
     console.log(user);
+
+    // Query url to determine which page to load
+    const urlParams = new URLSearchParams(window.location.search);
+    const routineParam = urlParams.get('routine');
+    if (routineParam) {
+        View.buildActivityPage(user);
+    } else {
+        View.buildHomePage(user);
+    }
 });

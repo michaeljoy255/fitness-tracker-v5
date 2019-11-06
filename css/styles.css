@@ -7,6 +7,65 @@
 
 html {
     font-family: "Roboto", sans-serif;
-    background-color: #36352c;
-    color: white;
+    background-color: #1e1c20;
+    color: #f5f4f1;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+}
+
+a.btn {
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #3f51b5;
+    width: 250px;
+    height: 40px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2a2a2c;
+    border: 1px solid #353536;
+    border-radius: 6px;
+    width: 100%;
+    padding: 10px;
+}
+
+/* Home */
+div.home {
+    height: 90vh;
+    padding: 10px;
+}
+
+section.home {
+    height: 100%;
+}
+
+h1.title {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 400;
+    margin-top: 25px;
+    margin-bottom: 40px;
+}
+
+div.routines {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Activity */
+div.activity {
+    height: 100vh;
+    padding: 10px;
 }
