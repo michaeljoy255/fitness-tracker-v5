@@ -121,7 +121,7 @@ class View {
         let section = `<section class="home">${divRoutines}${footer}</section>`;
 
         let target = document.querySelector('div.home');
-        target.innerHTML = section; // Sets page HTML
+        target.innerHTML = section; // Page HTML now exists
 
         // Add listeners for each routine button click once HTML exists
         user.routines.forEach( (rout, id) => {
@@ -308,7 +308,6 @@ class Profile {
             this.getExerciseIdByName(ExerciseEnum.INCLINE_BENCH_PRESS),
             this.getExerciseIdByName(ExerciseEnum.DECLINE_BENCH_PRESS),
             this.getExerciseIdByName(ExerciseEnum.FLY_MACHINE_CHEST),
-            this.getExerciseIdByName(ExerciseEnum.CABLE_CHEST_SIDE_PULLS),
             this.getExerciseIdByName(ExerciseEnum.CABLE_TRICEP_PULLDOWNS),
             this.getExerciseIdByName(ExerciseEnum.TRICEP_PRESS_MACHINE),
             this.getExerciseIdByName(ExerciseEnum.STRETCHING)
@@ -319,7 +318,6 @@ class Profile {
             this.getExerciseIdByName(ExerciseEnum.SHRUGS),
             this.getExerciseIdByName(ExerciseEnum.STIFF_LEG_DEADLIFTS),
             this.getExerciseIdByName(ExerciseEnum.ASSISTED_PULL_UPS),
-            this.getExerciseIdByName(ExerciseEnum.FLY_MACHINE_BACK),
             this.getExerciseIdByName(ExerciseEnum.OVERHAND_CURLS),
             this.getExerciseIdByName(ExerciseEnum.UNDERHAND_CURLS),
             this.getExerciseIdByName(ExerciseEnum.HAMMER_CURLS),
@@ -334,9 +332,9 @@ class Profile {
             this.getExerciseIdByName(ExerciseEnum.LEG_EXTENSION_MACHINE),
             this.getExerciseIdByName(ExerciseEnum.LEG_CURL_MACHINE),
             this.getExerciseIdByName(ExerciseEnum.CALF_EXTENSION_MACHINE),
+            this.getExerciseIdByName(ExerciseEnum.STANDING_GLUTE_MACHINE),
             this.getExerciseIdByName(ExerciseEnum.HIP_ABDUCTION_MACHINE),
             this.getExerciseIdByName(ExerciseEnum.HIP_ADDUCTION_MACHINE),
-            this.getExerciseIdByName(ExerciseEnum.STANDING_GLUTE_MACHINE),
             this.getExerciseIdByName(ExerciseEnum.ABDOMINAL_CRUNCH_MACHINE),
             this.getExerciseIdByName(ExerciseEnum.OBLIQUE_SIDE_BEND),
             this.getExerciseIdByName(ExerciseEnum.STRETCHING)
@@ -375,12 +373,6 @@ class Profile {
             new ASet(120, 10),
             new ASet(120, 10)
         ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.CABLE_CHEST_SIDE_PULLS), null, null, "", [
-            new ASet(22.5, 10),
-            new ASet(22.5, 10),
-            new ASet(22.5, 10),
-            new ASet(22.5, 10)
-        ]);
         this.addRecord(this.getExerciseIdByName(ExerciseEnum.CABLE_TRICEP_PULLDOWNS), null, null, "", [
             new ASet(40, 10),
             new ASet(40, 10),
@@ -416,11 +408,6 @@ class Profile {
             new ASet(30, 10),
             new ASet(30, 10)
         ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.FLY_MACHINE_BACK), null, null, "", [
-            new ASet(70, 12),
-            new ASet(70, 12),
-            new ASet(70, 12)
-        ]);
         this.addRecord(this.getExerciseIdByName(ExerciseEnum.OVERHAND_CURLS), null, null, "", [
             new ASet(30, 10),
             new ASet(30, 10),
@@ -447,44 +434,44 @@ class Profile {
             new ASet(10, 10)
         ]);
         this.addRecord(this.getExerciseIdByName(ExerciseEnum.SHOULDER_PRESS_MACHINE), null, null, "", [
-            new ASet(55, 10),
-            new ASet(55, 10),
-            new ASet(55, 10)
+            new ASet(60, 10),
+            new ASet(60, 10),
+            new ASet(60, 10)
         ]);
         this.addRecord(this.getExerciseIdByName(ExerciseEnum.LEG_PRESS_MACHINE), null, null, "", [
-            new ASet(170, 10),
-            new ASet(170, 10),
-            new ASet(170, 10)
+            new ASet(175, 10),
+            new ASet(175, 10),
+            new ASet(175, 10)
         ]);
         this.addRecord(this.getExerciseIdByName(ExerciseEnum.LEG_EXTENSION_MACHINE), null, null, "", [
-            new ASet(85, 10),
-            new ASet(85, 10),
-            new ASet(85, 10)
+            new ASet(90, 10),
+            new ASet(90, 10),
+            new ASet(90, 10)
         ]);
         this.addRecord(this.getExerciseIdByName(ExerciseEnum.LEG_CURL_MACHINE), null, null, "", [
-            new ASet(80, 10),
-            new ASet(80, 10),
-            new ASet(80, 10)
+            new ASet(85, 10),
+            new ASet(85, 10),
+            new ASet(90, 10)
         ]);
         this.addRecord(this.getExerciseIdByName(ExerciseEnum.CALF_EXTENSION_MACHINE), null, null, "", [
-            new ASet(170, 10),
-            new ASet(170, 10),
-            new ASet(170, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.HIP_ABDUCTION_MACHINE), null, null, "", [
-            new ASet(195, 10),
-            new ASet(195, 10),
-            new ASet(195, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.HIP_ADDUCTION_MACHINE), null, null, "", [
-            new ASet(160, 10),
-            new ASet(160, 10),
-            new ASet(160, 10)
+            new ASet(175, 10),
+            new ASet(175, 10),
+            new ASet(175, 10)
         ]);
         this.addRecord(this.getExerciseIdByName(ExerciseEnum.STANDING_GLUTE_MACHINE), null, null, "", [
-            new ASet(120, 10),
-            new ASet(120, 10),
-            new ASet(120, 10)
+            new ASet(125, 10),
+            new ASet(125, 10),
+            new ASet(125, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.HIP_ABDUCTION_MACHINE), null, null, "", [
+            new ASet(200, 10),
+            new ASet(200, 10),
+            new ASet(200, 10)
+        ]);
+        this.addRecord(this.getExerciseIdByName(ExerciseEnum.HIP_ADDUCTION_MACHINE), null, null, "", [
+            new ASet(165, 10),
+            new ASet(165, 10),
+            new ASet(165, 10)
         ]);
         this.addRecord(this.getExerciseIdByName(ExerciseEnum.ABDOMINAL_CRUNCH_MACHINE), null, null, "", [
             new ASet(35, 25),
