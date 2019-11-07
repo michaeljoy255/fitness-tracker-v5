@@ -3,6 +3,7 @@
 // ENUMS #######################################################################
 const ExerciseEnum = Object.freeze({
     ELLIPTICAL: "Elliptical, Warm-up",
+    ELLIPTICAL_INTERVAL: "Elliptical, Interval",
     STRETCHING: "Stretching",
     FLAT_BENCH_PRESS: "Flat Bench Press",
     INCLINE_BENCH_PRESS: "Incline Bench Press",
@@ -158,23 +159,23 @@ class View {
     }
 
     // Returns html for exercise field inputs like duration
-    static getExerciseFields(exercise) {
+    static getExerciseFields(exercise, exerId) {
         let fields = "";
-        let recordData = exercise.records[0];
+        let recordData = exercise.records[0]; // not ideal as a solution
 
         exercise.fields.forEach( f => {
             if (f === FieldsEnum.DURATION) {
                 fields += `
                     <span class='input-col'>
                         <p class='helper-text'>${f}</p>
-                        <input type='number' placeholder='${recordData.duration} minutes'>
+                        <input type='number' id='ex${exerId}-duration' placeholder='${recordData.duration} minutes'>
                     </span>
                 `;
             } else if (f === FieldsEnum.DISTANCE) {
                 fields += `
                     <span class='input-col'>
                         <p class='helper-text'>${f}</p>
-                        <input type='number' placeholder='${recordData.distance} miles'>
+                        <input type='number' id='ex${exerId}-distance' placeholder='${recordData.distance} miles'>
                     </span>
                 `;  
             } else if (f === FieldsEnum.SETS) {
@@ -184,8 +185,8 @@ class View {
 
                 recordData.sets.forEach( (oneSet, i) => {
                     innerSetNums += `<p class='set-number'>${i+1}</p>`;
-                    innerWeights += `<input type='number' placeholder='${oneSet.weight} lbs'>`;
-                    innerReps += `<input type='number' placeholder='${oneSet.reps} reps'>`;
+                    innerWeights += `<input type='number' id='ex${exerId}-weight${i}' placeholder='${oneSet.weight} lbs'>`;
+                    innerReps += `<input type='number' id='ex${exerId}-rep${i}' placeholder='${oneSet.reps} reps'>`;
                 });
 
                 let outerSetNums = `
@@ -244,7 +245,7 @@ class View {
     static buildActivityPage(user, routineId) {
         // Set date html and start activity timer
         document.querySelector('#date').innerHTML = View.getDateString();
-        View.activityTimer(new Date());
+        user.addActivity(null, routineId, null);
 
         // Html for routine title section at top
         let routine = `
@@ -263,7 +264,7 @@ class View {
             tags = View.getExerciseTags(user.getExerciseById(exerId));
             
             // Build exercise field inputs html
-            inputs = View.getExerciseFields(user.getExerciseById(exerId));
+            inputs = View.getExerciseFields(user.getExerciseById(exerId), exerId);
 
             // Build exercise section html by appending each exercise
             exerciseSections += `<section class='exercise'>
@@ -284,7 +285,7 @@ class View {
 
         // Finish button and textarea
         let footer = `<section>
-            <a href="#" class="btn" onclick="alert('Clicked!')">Finish Activity - To Clipboard</a>
+            <a href="#results" class="btn" id='finish'>Finish Activity - To Clipboard</a>
             <textarea id="results"></textarea>
         </section>`;
 
@@ -292,6 +293,11 @@ class View {
 
         // Set Activity page html
         document.querySelector('div.activity').innerHTML = allSections;
+
+        // Click listener for finishing activity button
+        document.querySelector("#finish").addEventListener("click", () => {
+            Profile.finishActivity(user, routineId);
+        });
 
         // Click listener for cancel activity button
         document.querySelector("#cancel").addEventListener("click", () => {
@@ -333,11 +339,10 @@ class Routine {
 
 // Activity or workout that a user is doing or has completed
 class Activity {
-    constructor(endTime, routineId, recordIds, weightMoved) {
+    constructor(endTime, routineId, weightMoved) {
         this.startTime = new Date();
         this.endTime = endTime;
         this.routineId = routineId;
-        this.recordIds = recordIds;
         this.weightMoved = weightMoved;
     }
 }
@@ -396,7 +401,7 @@ class Profile {
         this.activities.set(this.idCounter, new Activity(...activityParams));
         this.idCounter++;
         console.log("Starting activity timer");
-        Profile.activityTimer(new Date());
+        View.activityTimer(new Date());
     }
 
     addMeasurement(...measurementParams) {
@@ -420,6 +425,119 @@ class Profile {
         return this.routines.get(Number(routineId));
     }
 
+    // Ends the current activity and records the data
+    static finishActivity(user, routineId) {
+        let activityData = [];
+        activityData.push(View.getDateString());
+
+        // Get activity data from fields
+        let exerciseIds = user.routines.get(Number(routineId)).exerciseIds;
+        exerciseIds.forEach( exid => {
+            var id = "";
+            // Constructing the id to find the input and get its value
+            if (user.getExerciseById(exid).category === CategoryEnum.CARDIO) {
+                let cardioDuration = "";
+                let cardioDistance = "";
+
+                id = `ex${exid}-duration`;
+                cardioDuration += document.getElementById(id).value;
+
+                id = `ex${exid}-distance`;
+                cardioDistance += document.getElementById(id).value;
+
+                // in case no value was entered
+                if (cardioDuration === "") {
+                    cardioDuration = "0";
+                }
+                if (cardioDistance === "") {
+                    cardioDistance = "0"
+                }
+                
+                activityData.push(`${cardioDuration} (${cardioDistance})`);
+            } else if (user.getExerciseById(exid).category === CategoryEnum.MISC) {
+                let miscDuration = "";
+
+                id = `ex${exid}-duration`;
+                miscDuration = document.getElementById(id).value;
+
+                // in case no value was entered
+                if (miscDuration === "") {
+                    miscDuration = "0";
+                }
+
+                activityData.push(miscDuration);
+            } else {
+                let weightId = "";
+                let repId = "";
+                let setText = "";
+
+                // Look for set data in the record - using [0] is not ideal
+                const sets = user.getExerciseById(exid).records[0].sets;
+
+                sets.forEach( (oneSet, i) => {
+                    weightId = `ex${exid}-weight${i}`;
+                    repId = `ex${exid}-rep${i}`;
+
+                    // Both weight and rep values must be found to accept data
+                    if (document.getElementById(weightId).value && document.getElementById(repId).value) {
+                        let weight = document.getElementById(weightId).value;
+                        let rep = document.getElementById(repId).value;
+                        
+                        setText += `${weight}x${rep}, `;
+                    }
+                });
+                // Trim off trailing ', '
+                activityData.push(setText.slice(0, -2));
+            }
+        });
+
+        activityData.push(document.getElementById("timer").innerHTML)
+    
+        // Paste formatted data to textarea
+        let textarea = document.getElementById('results');
+        textarea.value = "";
+    
+        activityData.forEach(entry => {
+            textarea.value += entry + "\n";
+        });
+    
+        textarea.select();
+        textarea.setSelectionRange(0, 99999); /*For mobile devices*/
+    
+        try {
+            console.log("Attempting to copy text...");
+            document.execCommand('copy');
+        } catch (err) {
+            console.err("Unable to copy text!", err);
+        }
+    }
+
+    // @TODO - remove below!!!!
+    completeWorkout() {
+        user.routines[currentRoutine].exerciseIds.forEach( (exerciseId, ind) => {
+            var id = "";
+            if (user.exercises[exerciseId].category === "Cardio" || user.exercises[exerciseId].category === "Miscellanous") {
+                id = "ex" + ind + "-duration";
+                data.push(document.getElementById(id).value);
+            } else {
+                var weightId = "";
+                var repsId = "";
+                var setText = "";
+    
+                for (let i = 0; i < user.seededData[currentRoutine].records[ind].sets.length; i++) {
+                    weightId = "ex" + ind + "-weight" + i;
+                    repsId = "ex" + ind + "-reps" + i;
+                    
+                    if (document.getElementById(weightId).value && document.getElementById(repsId).value) {
+                        setText += document.getElementById(weightId).value;
+                        setText += "x" + document.getElementById(repsId).value + ", ";
+                    }
+                }
+                data.push(setText.slice(0, -2));
+            }
+        });
+    };
+
     seedExampleExercises() {
         console.log("Seeding exercises");
 
@@ -432,6 +550,16 @@ class Profile {
             FieldsEnum.DURATION, FieldsEnum.DISTANCE
         ], [
             new Record(7, 0.5, null)
+        ]);
+        this.addExercise(ExerciseEnum.ELLIPTICAL_INTERVAL, CategoryEnum.CARDIO, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.INTENSITY, "7/10"),
+            new Tags(TagsEnum.RESISTENCE, "8/20"),
+            new Tags(TagsEnum.INCLINE, "0/20")
+        ], [
+            FieldsEnum.DURATION, FieldsEnum.DISTANCE
+        ], [
+            new Record(20, 2, null)
         ]);
         this.addExercise(ExerciseEnum.STRETCHING, CategoryEnum.MISC, "Exercise description goes here!", [
             new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
@@ -497,7 +625,6 @@ class Profile {
             new Record(null, null, [
                 new ASet(120, 10),
                 new ASet(120, 10),
-                new ASet(120, 10),
                 new ASet(120, 10)
             ])
         ]);
@@ -512,7 +639,6 @@ class Profile {
             new Record(null, null, [
                 new ASet(40, 10),
                 new ASet(40, 10),
-                new ASet(40, 10),
                 new ASet(40, 10)
             ])
         ]);
@@ -525,7 +651,6 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(185, 10),
                 new ASet(185, 10),
                 new ASet(185, 10),
                 new ASet(185, 10)
@@ -585,9 +710,9 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(30, 10),
-                new ASet(30, 10),
-                new ASet(30, 10)
+                new ASet(25, 10),
+                new ASet(25, 10),
+                new ASet(25, 10)
             ])
         ]);
         this.addExercise(ExerciseEnum.OVERHAND_CURLS, CategoryEnum.BICEPS, "Exercise description goes here!", [
@@ -845,7 +970,7 @@ class Profile {
             this.getExerciseIdByName(ExerciseEnum.STRETCHING)
         ]);
         this.addRoutine("General Cardio", [
-            this.getExerciseIdByName(ExerciseEnum.ELLIPTICAL),
+            this.getExerciseIdByName(ExerciseEnum.ELLIPTICAL_INTERVAL),
             this.getExerciseIdByName(ExerciseEnum.STRETCHING)
         ]);
     }
@@ -856,7 +981,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     var user = new Profile();
     user.seedExampleExercises();
     user.seedExampleRoutines();
-    console.log(user);
+    //console.log(user);
 
     // Query url to determine which page to load
     const urlParams = new URLSearchParams(window.location.search);

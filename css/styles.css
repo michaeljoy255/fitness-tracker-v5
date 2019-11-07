@@ -8,7 +8,7 @@
 html {
     font-family: "Roboto", sans-serif;
     background-color: #1b181f;
-    color: #e9e8e5;
+    color: #f5f4f1;
 }
 
 a {
@@ -129,7 +129,7 @@ div.tags {
     font-size: 12px;
 }
 
-span.info-tag {
+span.tag {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -152,7 +152,7 @@ span.info-tag {
     color: #f3c428;
 }
 
-/* Activity - Inputs */
+/* Activity - Fields */
 div.inputs {
     display: flex;
     flex-direction: row;
