@@ -98,30 +98,24 @@ class View {
         return (month + "/" + day + "/" + year);
     }
 
-    // Returns string formatted like 1H 7M 32S
-    static getTimeString() {
-        // @TODO - implement!
-        return "";
-    }
-
     // HOME PAGE
     static buildHomePage(user) {
         let footer = "<p>WIP Fitness Tracker v5 ~ Michael J</p>";
         let title = "<h1 class='title'>Fitness Tracker</h1>";
         let btns = "";
 
-        // Build routine buttons HTML
+        // Html for routine buttons
         user.routines.forEach( (rout, id) => {
             btns += `<a href='#' class='btn' id='routine${id}'>${rout.name}</a>`;
         });
 
-        let divRoutines = `<div class="routines">${title}${btns}</div>`;
+        let divRoutines = `<div class="routines">${title}${btns}</div>`;        
         let section = `<section class="home">${divRoutines}${footer}</section>`;
 
-        // Set Home page HTML
+        // Set Home page html
         document.querySelector('div.home').innerHTML = section; 
 
-        // Click listeners for each routine button - added once HTML exists
+        // Click listeners for each routine button - added once html exists
         user.routines.forEach( (rout, id) => {
             document.querySelector(`#routine${id}`).addEventListener("click", () => {
                 window.location.href = `activity.html?routine=${id}`;
@@ -131,27 +125,77 @@ class View {
 
     // ACTIVITY PAGE
     static buildActivityPage(user, routineId) {
-        // Set date HTML and start activity timer
+        // Set date html and start activity timer
         document.querySelector('#date').innerHTML = View.getDateString();
         View.activityTimer(new Date());
 
-        // Routine as title at top
-        let routine = `<section class='routine'>
-            <i class="material-icons">fitness_center</i>
-            ${user.getRoutineById(routineId).name}
-            <i class="material-icons">fitness_center</i>
-        </section>`;
+        // Html for routine title section at top
+        let routine = `
+            <section class='routine'>
+                ${user.getRoutineById(routineId).name}
+            </section>
+        `;
    
-        // Build exercise sections HTML
         let exerciseSections = "";
         let tags = "";
         let inputs = "";
 
+        // Build exercise sections
         user.getRoutineById(routineId).exerciseIds.forEach( exerId => {
-            tags = "WIP: Icons for the current exercise..."
-            inputs = "WIP: Inputs like duration or sets..."
+            // @TODO - make tags and inputs dynamically based on data
+            //       - Extract a function to do this
+            tags = `
+                <span class='tag'>
+                    <i class="material-icons">assignment</i>
+                    <p></p>
+                </span>
+                <span class='tag'>
+                    <i class="material-icons blue">hourglass_empty</i>
+                    <p>2m 30s</p>
+                </span>
+                <span class='tag'>
+                    <i class="material-icons green">speed</i>
+                    <p>1s</p>
+                </span>
+                <span class='tag'>
+                    <i class="material-icons red">whatshot</i>
+                    <p>6/10</p>
+                </span>
+                <span class='tag'>
+                    <i class="material-icons yellow">fitness_center</i>
+                    <p>8/20</p>
+                </span>
+                <span class='tag'>
+                    <i class="material-icons yellow">signal_cellular_null</i>
+                    <p>0/20</p>
+                </span>
+            `;
+            
+            // @TODO - read above todo for more info
+            inputs = `
+                    <span class='input-col'>
+                        <p class='helper-text'>Set</p>
+                        <p class='set-number'>1</p>
+                        <p class='set-number'>2</p>
+                        <p class='set-number'>3</p>
+                    </span>
+                    <span class='input-col'>
+                        <p class='helper-text'>Weight</p>
+                        <input type='number' placeholder='100 lbs'>
+                        <input type='number' placeholder='100 lbs'>
+                        <input type='number' placeholder='100 lbs'>
+                    </span>
+                    <span class='input-col'>
+                        <p class='helper-text'>Reps</p>
+                        <input type='number' placeholder='10 reps'>
+                        <input type='number' placeholder='10 reps'>
+                        <input type='number' placeholder='10 reps'>
+                    </span>
+            `;
+
+            // Build exercise section html by appending each exercise
             exerciseSections += `<section class='exercise'>
-                <div class='top'>
+                <div class='heading'>
                     <span>${user.getExerciseById(exerId).name}</span>
                     <span class='category'>${user.getExerciseById(exerId).category}</span>
                 </div>
@@ -159,6 +203,7 @@ class View {
                 <div class='tags'>
                     ${tags}
                 </div>
+                <hr />
                 <div class='inputs'>
                     ${inputs}
                 </div>
@@ -173,7 +218,7 @@ class View {
 
         let allSections = routine + exerciseSections + footer;
 
-        // Set Activity page HTML
+        // Set Activity page html
         document.querySelector('div.activity').innerHTML = allSections;
 
         // Click listener for cancel activity button
@@ -189,8 +234,8 @@ class View {
 // Used to define properties of an exercise (UI componets, inputs, etc)
 class Exercise {
     constructor(name, category, desc, breaksTag, tempoTag, intensityTag, 
-                resistenceTag, inclineTag, distanceInput, durationInput,
-                notesInput, setsInput) {
+                resistenceTag, inclineTag, notesTag, distanceInput,
+                durationInput, setsInput) {
         this.name = name;
         this.category = category;
         this.desc = desc;
@@ -200,10 +245,10 @@ class Exercise {
         this.intensityTag = intensityTag;
         this.resistenceTag = resistenceTag;
         this.inclineTag = inclineTag;
+        this.notesTag = notesTag;
         // Exercise Inputs - Booleans
         this.distanceInput = distanceInput;     
         this.durationInput = durationInput;
-        this.notesInput = notesInput;
         this.setsInput = setsInput;
     }
 }
@@ -316,8 +361,8 @@ class Profile {
     seedExampleExercises() {
         console.log("Seeding exercises");
         const seedCardio = ["", false, false, true, true, true, true, true, true, false];
-        const seedStretch = ["", false, false, true, false, false, false, true, true, false];
-        const seedWeight = ["", true, true, true, false, false, false, false, true, true];
+        const seedStretch = ["", false, false, true, false, false, true, false, true, false];
+        const seedWeight = ["", true, true, true, false, false, true, false, false, true];
         this.addExercise(ExerciseEnum.ELLIPTICAL, CategoryEnum.CARDIO, ...seedCardio);
         this.addExercise(ExerciseEnum.STRETCHING, CategoryEnum.MISC, ...seedStretch);
         this.addExercise(ExerciseEnum.FLAT_BENCH_PRESS, CategoryEnum.CHEST, ...seedWeight);
