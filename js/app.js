@@ -8,14 +8,12 @@ const ExerciseEnum = Object.freeze({
     INCLINE_BENCH_PRESS: "Incline Bench Press",
     DECLINE_BENCH_PRESS: "Decline Bench Press",
     FLY_MACHINE_CHEST: "Fly Machine (Chest)",
-    CABLE_CHEST_SIDE_PULLS: "Cable Chest Side Pulls",
     CABLE_TRICEP_PULLDOWNS: "Cable Tricep Pulldowns",
     TRICEP_PRESS_MACHINE: "Tricep Press Machine",
     BENT_OVER_ROWS: "Bent Over Rows",
     SHRUGS: "Shrugs",
     STIFF_LEG_DEADLIFTS: "Stiff-Leg Deadlifts",
     ASSISTED_PULL_UPS: "Assisted Pull-ups",
-    FLY_MACHINE_BACK: "Fly Machine (Back)",
     UNDERHAND_CURLS: "Underhand Curls",
     HAMMER_CURLS: "Hammer Curls",
     OVERHAND_CURLS: "Overhand Curls",
@@ -50,12 +48,19 @@ const UnitsEnum = Object.freeze({
     METRIC: "Metric"
 });
 
-const IntensityEnum = Object.freeze({
-    MIN: "Minimal",
-    LOW: "Low",
-    MED: "Medium",
-    HIGH: "High",
-    MAX: "Maxed",
+const TagsEnum = Object.freeze({
+    NOTES: "Notes",
+    BREAKS: "Breaks",
+    TEMPO: "Tempo",
+    INTENSITY: "Intensity",
+    RESISTENCE: "Resistence",
+    INCLINE: "Incline"
+});
+
+const FieldsEnum = Object.freeze({
+    DISTANCE: "Distance",
+    DURATION: "Duration",
+    SETS: "Sets"
 });
 
 // CLASSES #####################################################################
@@ -96,6 +101,118 @@ class View {
         const month = date.getMonth() + 1;
         const day = date.getDate();
         return (month + "/" + day + "/" + year);
+    }
+
+    // Returns html for exercise info tags like intensity
+    static getExerciseTags(exercise) {
+        let tags = "";
+
+        exercise.tags.forEach( t => {
+            switch(t.name) {
+                case TagsEnum.NOTES:
+                    tags += `<span class='tag'>
+                        <i class="material-icons">assignment</i>
+                        <p>Notes</p>
+                    </span>`;
+                    break;
+                case TagsEnum.BREAKS:
+                    tags += `<span class='tag'>
+                        <i class="material-icons blue">hourglass_empty</i>
+                        <p>${t.value}</p>
+                    </span>`;
+                    break;           
+                case TagsEnum.TEMPO:
+                    tags += `<span class='tag'>
+                        <i class="material-icons green">speed</i>
+                        <p>${t.value}</p>
+                    </span>`;
+                    break; 
+                case TagsEnum.INTENSITY:
+                    tags += `<span class='tag'>
+                        <i class="material-icons red">whatshot</i>
+                        <p>${t.value}</p>
+                    </span>`;
+                    break; 
+                case TagsEnum.RESISTENCE:
+                    tags += `<span class='tag'>
+                        <i class="material-icons yellow">fitness_center</i>
+                        <p>${t.value}</p>
+                    </span>`;
+                    break; 
+                case TagsEnum.INCLINE:
+                    tags += `<span class='tag'>
+                        <i class="material-icons yellow">signal_cellular_null</i>
+                        <p>${t.value}</p>
+                    </span>`;
+                    break;
+                default:
+                    tags += `<span class='tag'>
+                        <i class="material-icons red">cancel</i>
+                        <p>error</p>
+                    </span>`;
+                    break;
+            }
+        });
+
+        return tags;
+    }
+
+    // Returns html for exercise field inputs like duration
+    static getExerciseFields(exercise) {
+        let fields = "";
+        let recordData = exercise.records[0];
+
+        exercise.fields.forEach( f => {
+            if (f === FieldsEnum.DURATION) {
+                fields += `
+                    <span class='input-col'>
+                        <p class='helper-text'>${f}</p>
+                        <input type='number' placeholder='${recordData.duration} minutes'>
+                    </span>
+                `;
+            } else if (f === FieldsEnum.DISTANCE) {
+                fields += `
+                    <span class='input-col'>
+                        <p class='helper-text'>${f}</p>
+                        <input type='number' placeholder='${recordData.distance} miles'>
+                    </span>
+                `;  
+            } else if (f === FieldsEnum.SETS) {
+                let innerSetNums = "";
+                let innerWeights = "";
+                let innerReps = "";
+
+                recordData.sets.forEach( (oneSet, i) => {
+                    innerSetNums += `<p class='set-number'>${i+1}</p>`;
+                    innerWeights += `<input type='number' placeholder='${oneSet.weight} lbs'>`;
+                    innerReps += `<input type='number' placeholder='${oneSet.reps} reps'>`;
+                });
+
+                let outerSetNums = `
+                    <span class='input-col'>
+                        <p class='helper-text'>Set</p>
+                        ${innerSetNums}
+                    </span>
+                `;
+                let outerWeights = `
+                    <span class='input-col'>
+                        <p class='helper-text'>Weight</p>
+                        ${innerWeights}
+                    </span>
+                `;
+                let outerReps = `
+                    <span class='input-col'>
+                        <p class='helper-text'>Reps</p>
+                        ${innerReps}
+                    </span>
+                `;
+                fields += outerSetNums + outerWeights + outerReps;
+            } else {
+                console.error("Problem with exercise input fields!");
+            }
+        });
+
+        return fields;
     }
 
     // HOME PAGE
@@ -142,56 +259,11 @@ class View {
 
         // Build exercise sections
         user.getRoutineById(routineId).exerciseIds.forEach( exerId => {
-            // @TODO - make tags and inputs dynamically based on data
-            //       - Extract a function to do this
-            tags = `
-                <span class='tag'>
-                    <i class="material-icons">assignment</i>
-                    <p></p>
-                </span>
-                <span class='tag'>
-                    <i class="material-icons blue">hourglass_empty</i>
-                    <p>2m 30s</p>
-                </span>
-                <span class='tag'>
-                    <i class="material-icons green">speed</i>
-                    <p>1s</p>
-                </span>
-                <span class='tag'>
-                    <i class="material-icons red">whatshot</i>
-                    <p>6/10</p>
-                </span>
-                <span class='tag'>
-                    <i class="material-icons yellow">fitness_center</i>
-                    <p>8/20</p>
-                </span>
-                <span class='tag'>
-                    <i class="material-icons yellow">signal_cellular_null</i>
-                    <p>0/20</p>
-                </span>
-            `;
+            // Build exercise info tags html
+            tags = View.getExerciseTags(user.getExerciseById(exerId));
             
-            // @TODO - read above todo for more info
-            inputs = `
-                    <span class='input-col'>
-                        <p class='helper-text'>Set</p>
-                        <p class='set-number'>1</p>
-                        <p class='set-number'>2</p>
-                        <p class='set-number'>3</p>
-                    </span>
-                    <span class='input-col'>
-                        <p class='helper-text'>Weight</p>
-                        <input type='number' placeholder='100 lbs'>
-                        <input type='number' placeholder='100 lbs'>
-                        <input type='number' placeholder='100 lbs'>
-                    </span>
-                    <span class='input-col'>
-                        <p class='helper-text'>Reps</p>
-                        <input type='number' placeholder='10 reps'>
-                        <input type='number' placeholder='10 reps'>
-                        <input type='number' placeholder='10 reps'>
-                    </span>
-            `;
+            // Build exercise field inputs html
+            inputs = View.getExerciseFields(user.getExerciseById(exerId));
 
             // Build exercise section html by appending each exercise
             exerciseSections += `<section class='exercise'>
@@ -231,25 +303,23 @@ class View {
     }
 }
 
-// Used to define properties of an exercise (UI componets, inputs, etc)
+// Used to define properties of an exercise (UI elements, input fields, etc)
 class Exercise {
-    constructor(name, category, desc, breaksTag, tempoTag, intensityTag, 
-                resistenceTag, inclineTag, notesTag, distanceInput,
-                durationInput, setsInput) {
+    constructor(name, category, desc, tags, fields, records) {
         this.name = name;
         this.category = category;
         this.desc = desc;
-        // Exercise UI Goal Tags - Booleans
-        this.breaksTag = breaksTag;
-        this.tempoTag = tempoTag;
-        this.intensityTag = intensityTag;
-        this.resistenceTag = resistenceTag;
-        this.inclineTag = inclineTag;
-        this.notesTag = notesTag;
-        // Exercise Inputs - Booleans
-        this.distanceInput = distanceInput;     
-        this.durationInput = durationInput;
-        this.setsInput = setsInput;
+        this.tags = tags; // notes, breaks, tempo...
+        this.fields = fields; // distance, duration, sets...
+        this.records = records;
+    }
+}
+
+// Additional information tags for a specific exercise
+class Tags {
+    constructor(name, value) {
+        this.name = name;
+        this.value = value;
     }
 }
 
@@ -274,12 +344,10 @@ class Activity {
 
 // Performance record for an exercise
 class Record {
-    constructor(exerciseId, distance, duration, notes, sets) {
+    constructor(duration, distance, sets) {
         this.date = new Date();
-        this.exerciseId = exerciseId;
-        this.distance = distance;
         this.duration = duration;
-        this.notes = notes;
+        this.distance = distance;
         this.sets = sets;
     }
 }
@@ -298,7 +366,7 @@ class Measurement {
         this.date = new Date();
         this.bodyWeight = bodyWeight;
         this.bodyFat = bodyFat;
-        // could include other measurements like chest, arms, waist, etc
+        // @FEATURE: could include other measurements like chest, arms, waist...
     }
 }
 
@@ -310,7 +378,6 @@ class Profile {
         this.exercises = new Map();
         this.routines = new Map();
         this.activities = new Map();
-        this.records = new Map();
         this.measurements = new Map();
         this.idCounter = 1000;
     }
@@ -330,11 +397,6 @@ class Profile {
         this.idCounter++;
         console.log("Starting activity timer");
         Profile.activityTimer(new Date());
-    }
-
-    addRecord(...recordParams) {
-        this.records.set(this.idCounter, new Record(...recordParams));
-        this.idCounter++;
     }
 
     addMeasurement(...measurementParams) {
@@ -360,42 +422,391 @@ class Profile {
 
     seedExampleExercises() {
         console.log("Seeding exercises");
-        const seedCardio = ["", false, false, true, true, true, true, true, true, false];
-        const seedStretch = ["", false, false, true, false, false, true, false, true, false];
-        const seedWeight = ["", true, true, true, false, false, true, false, false, true];
-        this.addExercise(ExerciseEnum.ELLIPTICAL, CategoryEnum.CARDIO, ...seedCardio);
-        this.addExercise(ExerciseEnum.STRETCHING, CategoryEnum.MISC, ...seedStretch);
-        this.addExercise(ExerciseEnum.FLAT_BENCH_PRESS, CategoryEnum.CHEST, ...seedWeight);
-        this.addExercise(ExerciseEnum.INCLINE_BENCH_PRESS, CategoryEnum.CHEST, ...seedWeight);
-        this.addExercise(ExerciseEnum.DECLINE_BENCH_PRESS, CategoryEnum.CHEST, ...seedWeight);
-        this.addExercise(ExerciseEnum.FLY_MACHINE_CHEST, CategoryEnum.CHEST, ...seedWeight);
-        this.addExercise(ExerciseEnum.CABLE_CHEST_SIDE_PULLS, CategoryEnum.CHEST, ...seedWeight);
-        this.addExercise(ExerciseEnum.CABLE_TRICEP_PULLDOWNS, CategoryEnum.TRICEPS, ...seedWeight);
-        this.addExercise(ExerciseEnum.TRICEP_PRESS_MACHINE, CategoryEnum.TRICEPS, ...seedWeight);
-        this.addExercise(ExerciseEnum.BENT_OVER_ROWS, CategoryEnum.BACK, ...seedWeight);
-        this.addExercise(ExerciseEnum.SHRUGS, CategoryEnum.BACK, ...seedWeight);
-        this.addExercise(ExerciseEnum.STIFF_LEG_DEADLIFTS, CategoryEnum.BACK, ...seedWeight);
-        this.addExercise(ExerciseEnum.ASSISTED_PULL_UPS, CategoryEnum.BACK, ...seedWeight);
-        this.addExercise(ExerciseEnum.FLY_MACHINE_BACK, CategoryEnum.BACK, ...seedWeight);
-        this.addExercise(ExerciseEnum.UNDERHAND_CURLS, CategoryEnum.BICEPS, ...seedWeight);
-        this.addExercise(ExerciseEnum.HAMMER_CURLS, CategoryEnum.BICEPS, ...seedWeight);
-        this.addExercise(ExerciseEnum.OVERHAND_CURLS, CategoryEnum.BICEPS, ...seedWeight);
-        this.addExercise(ExerciseEnum.SIDE_RAISES, CategoryEnum.SHOULDERS, ...seedWeight);
-        this.addExercise(ExerciseEnum.FRONT_RAISES, CategoryEnum.SHOULDERS, ...seedWeight);
-        this.addExercise(ExerciseEnum.SHOULDER_PRESS_MACHINE, CategoryEnum.SHOULDERS, ...seedWeight);
-        this.addExercise(ExerciseEnum.LEG_PRESS_MACHINE, CategoryEnum.LEGS, ...seedWeight);
-        this.addExercise(ExerciseEnum.LEG_EXTENSION_MACHINE, CategoryEnum.LEGS, ...seedWeight);
-        this.addExercise(ExerciseEnum.LEG_CURL_MACHINE, CategoryEnum.LEGS, ...seedWeight);
-        this.addExercise(ExerciseEnum.CALF_EXTENSION_MACHINE, CategoryEnum.LEGS, ...seedWeight);
-        this.addExercise(ExerciseEnum.HIP_ABDUCTION_MACHINE, CategoryEnum.LEGS, ...seedWeight);
-        this.addExercise(ExerciseEnum.HIP_ADDUCTION_MACHINE, CategoryEnum.LEGS, ...seedWeight);
-        this.addExercise(ExerciseEnum.STANDING_GLUTE_MACHINE, CategoryEnum.LEGS, ...seedWeight);
-        this.addExercise(ExerciseEnum.ABDOMINAL_CRUNCH_MACHINE, CategoryEnum.CORE, ...seedWeight);
-        this.addExercise(ExerciseEnum.OBLIQUE_SIDE_BEND, CategoryEnum.CORE, ...seedWeight);
+
+        this.addExercise(ExerciseEnum.ELLIPTICAL, CategoryEnum.CARDIO, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.INTENSITY, "6/10"),
+            new Tags(TagsEnum.RESISTENCE, "8/20"),
+            new Tags(TagsEnum.INCLINE, "0/20")
+        ], [
+            FieldsEnum.DURATION, FieldsEnum.DISTANCE
+        ], [
+            new Record(7, 0.5, null)
+        ]);
+        this.addExercise(ExerciseEnum.STRETCHING, CategoryEnum.MISC, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.INTENSITY, "5/10")
+        ], [
+            FieldsEnum.DURATION
+        ], [
+            new Record(9, null, null)
+        ]);
+        this.addExercise(ExerciseEnum.FLAT_BENCH_PRESS, CategoryEnum.CHEST, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "3m"),
+            new Tags(TagsEnum.TEMPO, "1.5s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(120, 10),
+                new ASet(120, 10),
+                new ASet(120, 10),
+                new ASet(120, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.INCLINE_BENCH_PRESS, CategoryEnum.CHEST, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "3m"),
+            new Tags(TagsEnum.TEMPO, "1.5s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(72.5, 10),
+                new ASet(72.5, 10),
+                new ASet(72.5, 10),
+                new ASet(72.5, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.DECLINE_BENCH_PRESS, CategoryEnum.CHEST, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "3m"),
+            new Tags(TagsEnum.TEMPO, "1.5s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(120, 10),
+                new ASet(120, 10),
+                new ASet(120, 10),
+                new ASet(120, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.FLY_MACHINE_CHEST, CategoryEnum.CHEST, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m 30s"),
+            new Tags(TagsEnum.TEMPO, "1.5s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(120, 10),
+                new ASet(120, 10),
+                new ASet(120, 10),
+                new ASet(120, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.CABLE_TRICEP_PULLDOWNS, CategoryEnum.TRICEPS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(40, 10),
+                new ASet(40, 10),
+                new ASet(40, 10),
+                new ASet(40, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.TRICEP_PRESS_MACHINE, CategoryEnum.TRICEPS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(185, 10),
+                new ASet(185, 10),
+                new ASet(185, 10),
+                new ASet(185, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.BENT_OVER_ROWS, CategoryEnum.BACK, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "3m"),
+            new Tags(TagsEnum.TEMPO, "1.5s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(117.5, 10),
+                new ASet(117.5, 10),
+                new ASet(117.5, 10),
+                new ASet(117.5, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.SHRUGS, CategoryEnum.BACK, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "3m"),
+            new Tags(TagsEnum.TEMPO, "1.5s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(187.5, 10),
+                new ASet(187.5, 10),
+                new ASet(187.5, 10),
+                new ASet(187.5, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.STIFF_LEG_DEADLIFTS, CategoryEnum.BACK, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "3m"),
+            new Tags(TagsEnum.TEMPO, "1.5s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(100, 10),
+                new ASet(100, 10),
+                new ASet(100, 10),
+                new ASet(100, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.ASSISTED_PULL_UPS, CategoryEnum.BACK, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "3m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(30, 10),
+                new ASet(30, 10),
+                new ASet(30, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.OVERHAND_CURLS, CategoryEnum.BICEPS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "30s"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "6/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(30, 10),
+                new ASet(30, 10),
+                new ASet(30, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.UNDERHAND_CURLS, CategoryEnum.BICEPS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "2m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(25, 10),
+                new ASet(25, 10),
+                new ASet(25, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.HAMMER_CURLS, CategoryEnum.BICEPS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "2m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(25, 10),
+                new ASet(25, 10),
+                new ASet(25, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.SIDE_RAISES, CategoryEnum.SHOULDERS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "30s"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(10, 10),
+                new ASet(10, 10),
+                new ASet(10, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.FRONT_RAISES, CategoryEnum.SHOULDERS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "30s"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(10, 10),
+                new ASet(10, 10),
+                new ASet(10, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.SHOULDER_PRESS_MACHINE, CategoryEnum.SHOULDERS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m 30s"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(60, 10),
+                new ASet(60, 10),
+                new ASet(60, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.LEG_PRESS_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "6/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(175, 10),
+                new ASet(175, 10),
+                new ASet(175, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.LEG_EXTENSION_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "6/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(90, 10),
+                new ASet(90, 10),
+                new ASet(90, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.LEG_CURL_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "6/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(85, 10),
+                new ASet(85, 10),
+                new ASet(90, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.CALF_EXTENSION_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "6/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(175, 10),
+                new ASet(175, 10),
+                new ASet(175, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.STANDING_GLUTE_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(125, 10),
+                new ASet(125, 10),
+                new ASet(125, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.HIP_ABDUCTION_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "6/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(200, 10),
+                new ASet(200, 10),
+                new ASet(200, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.HIP_ADDUCTION_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "6/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(165, 10),
+                new ASet(165, 10),
+                new ASet(165, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.ABDOMINAL_CRUNCH_MACHINE, CategoryEnum.CORE, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "2m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(35, 25),
+                new ASet(35, 25),
+                new ASet(35, 25),
+                new ASet(35, 25)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.OBLIQUE_SIDE_BEND, CategoryEnum.CORE, "Exercise description goes here!", [
+            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "1s"),
+            new Tags(TagsEnum.INTENSITY, "7/10")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(45, 25),
+                new ASet(45, 25),
+                new ASet(45, 25),
+                new ASet(45, 25)
+            ])
+        ]);
     }
 
     seedExampleRoutines() {
         console.log("Seeding routines");
+
         this.addRoutine("Chest and Triceps", [
             this.getExerciseIdByName(ExerciseEnum.ELLIPTICAL),
             this.getExerciseIdByName(ExerciseEnum.FLAT_BENCH_PRESS),
@@ -438,148 +849,6 @@ class Profile {
             this.getExerciseIdByName(ExerciseEnum.STRETCHING)
         ]);
     }
-
-    seedExampleRecords() {
-        console.log("Seeding records");
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.ELLIPTICAL), null, 420, "", []);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.STRETCHING), null, 480, "", []);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.FLAT_BENCH_PRESS), null, null, "", [
-            new ASet(120, 10),
-            new ASet(120, 10),
-            new ASet(120, 10),
-            new ASet(120, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.INCLINE_BENCH_PRESS), null, null, "", [
-            new ASet(72.5, 10),
-            new ASet(72.5, 10),
-            new ASet(72.5, 10),
-            new ASet(72.5, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.DECLINE_BENCH_PRESS), null, null, "", [
-            new ASet(120, 10),
-            new ASet(120, 10),
-            new ASet(120, 10),
-            new ASet(120, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.FLY_MACHINE_CHEST), null, null, "", [
-            new ASet(120, 10),
-            new ASet(120, 10),
-            new ASet(120, 10),
-            new ASet(120, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.CABLE_TRICEP_PULLDOWNS), null, null, "", [
-            new ASet(40, 10),
-            new ASet(40, 10),
-            new ASet(40, 10),
-            new ASet(40, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.TRICEP_PRESS_MACHINE), null, null, "", [
-            new ASet(185, 10),
-            new ASet(185, 10),
-            new ASet(185, 10),
-            new ASet(185, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.BENT_OVER_ROWS), null, null, "", [
-            new ASet(117.5, 10),
-            new ASet(117.5, 10),
-            new ASet(117.5, 10),
-            new ASet(117.5, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.SHRUGS), null, null, "", [
-            new ASet(187.5, 10),
-            new ASet(187.5, 10),
-            new ASet(187.5, 10),
-            new ASet(187.5, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.STIFF_LEG_DEADLIFTS), null, null, "", [
-            new ASet(100, 10),
-            new ASet(100, 10),
-            new ASet(100, 10),
-            new ASet(100, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.ASSISTED_PULL_UPS), null, null, "", [
-            new ASet(30, 10),
-            new ASet(30, 10),
-            new ASet(30, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.OVERHAND_CURLS), null, null, "", [
-            new ASet(30, 10),
-            new ASet(30, 10),
-            new ASet(30, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.UNDERHAND_CURLS), null, null, "", [
-            new ASet(25, 10),
-            new ASet(25, 10),
-            new ASet(25, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.HAMMER_CURLS), null, null, "", [
-            new ASet(25, 10),
-            new ASet(25, 10),
-            new ASet(25, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.SIDE_RAISES), null, null, "", [
-            new ASet(10, 10),
-            new ASet(10, 10),
-            new ASet(10, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.FRONT_RAISES), null, null, "", [
-            new ASet(10, 10),
-            new ASet(10, 10),
-            new ASet(10, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.SHOULDER_PRESS_MACHINE), null, null, "", [
-            new ASet(60, 10),
-            new ASet(60, 10),
-            new ASet(60, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.LEG_PRESS_MACHINE), null, null, "", [
-            new ASet(175, 10),
-            new ASet(175, 10),
-            new ASet(175, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.LEG_EXTENSION_MACHINE), null, null, "", [
-            new ASet(90, 10),
-            new ASet(90, 10),
-            new ASet(90, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.LEG_CURL_MACHINE), null, null, "", [
-            new ASet(85, 10),
-            new ASet(85, 10),
-            new ASet(90, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.CALF_EXTENSION_MACHINE), null, null, "", [
-            new ASet(175, 10),
-            new ASet(175, 10),
-            new ASet(175, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.STANDING_GLUTE_MACHINE), null, null, "", [
-            new ASet(125, 10),
-            new ASet(125, 10),
-            new ASet(125, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.HIP_ABDUCTION_MACHINE), null, null, "", [
-            new ASet(200, 10),
-            new ASet(200, 10),
-            new ASet(200, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.HIP_ADDUCTION_MACHINE), null, null, "", [
-            new ASet(165, 10),
-            new ASet(165, 10),
-            new ASet(165, 10)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.ABDOMINAL_CRUNCH_MACHINE), null, null, "", [
-            new ASet(35, 25),
-            new ASet(35, 25),
-            new ASet(35, 25),
-            new ASet(35, 25)
-        ]);
-        this.addRecord(this.getExerciseIdByName(ExerciseEnum.OBLIQUE_SIDE_BEND), null, null, "", [
-            new ASet(45, 25),
-            new ASet(45, 25),
-            new ASet(45, 25),
-            new ASet(45, 25)
-        ]);
-    }
 }
 
 // MAIN ########################################################################
@@ -587,7 +856,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
     var user = new Profile();
     user.seedExampleExercises();
     user.seedExampleRoutines();
-    user.seedExampleRecords();
     console.log(user);
 
     // Query url to determine which page to load
