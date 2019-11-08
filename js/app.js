@@ -502,7 +502,7 @@ class Profile {
         });
     
         textarea.select();
-        textarea.setSelectionRange(0, 99999); /*For mobile devices*/
+        textarea.setSelectionRange(0, 99999); // For mobile devices
     
         try {
             console.log("Attempting to copy text...");
@@ -511,32 +511,6 @@ class Profile {
             console.err("Unable to copy text!", err);
         }
     }
-
-    // @TODO - remove below!!!!
-    completeWorkout() {
-        user.routines[currentRoutine].exerciseIds.forEach( (exerciseId, ind) => {
-            var id = "";
-            if (user.exercises[exerciseId].category === "Cardio" || user.exercises[exerciseId].category === "Miscellanous") {
-                id = "ex" + ind + "-duration";
-                data.push(document.getElementById(id).value);
-            } else {
-                var weightId = "";
-                var repsId = "";
-                var setText = "";
-    
-                for (let i = 0; i < user.seededData[currentRoutine].records[ind].sets.length; i++) {
-                    weightId = "ex" + ind + "-weight" + i;
-                    repsId = "ex" + ind + "-reps" + i;
-                    
-                    if (document.getElementById(weightId).value && document.getElementById(repsId).value) {
-                        setText += document.getElementById(weightId).value;
-                        setText += "x" + document.getElementById(repsId).value + ", ";
-                    }
-                }
-                data.push(setText.slice(0, -2));
-            }
-        });
-    };
 
     seedExampleExercises() {
         console.log("Seeding exercises");
