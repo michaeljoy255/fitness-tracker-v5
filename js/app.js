@@ -552,10 +552,10 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(120, 10),
-                new ASet(120, 10),
-                new ASet(120, 10),
-                new ASet(120, 10)
+                new ASet(122.5, 10),
+                new ASet(125, 10),
+                new ASet(127.5, 10),
+                new ASet(130, 10)
             ])
         ]);
         this.addExercise(ExerciseEnum.INCLINE_BENCH_PRESS, CategoryEnum.CHEST, "Exercise description goes here!", [
@@ -567,10 +567,10 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(72.5, 10),
-                new ASet(72.5, 10),
-                new ASet(72.5, 10),
-                new ASet(72.5, 10)
+                new ASet(75, 10),
+                new ASet(75, 10),
+                new ASet(75, 10),
+                new ASet(77.5, 10)
             ])
         ]);
         this.addExercise(ExerciseEnum.DECLINE_BENCH_PRESS, CategoryEnum.CHEST, "Exercise description goes here!", [
@@ -582,10 +582,10 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(120, 10),
-                new ASet(120, 10),
-                new ASet(120, 10),
-                new ASet(120, 10)
+                new ASet(125, 10),
+                new ASet(127.5, 10),
+                new ASet(127.5, 10),
+                new ASet(127.5, 9)
             ])
         ]);
         this.addExercise(ExerciseEnum.FLY_MACHINE_CHEST, CategoryEnum.CHEST, "Exercise description goes here!", [
@@ -599,7 +599,7 @@ class Profile {
             new Record(null, null, [
                 new ASet(120, 10),
                 new ASet(120, 10),
-                new ASet(120, 10)
+                new ASet(120, 9)
             ])
         ]);
         this.addExercise(ExerciseEnum.CABLE_TRICEP_PULLDOWNS, CategoryEnum.TRICEPS, "Exercise description goes here!", [
@@ -611,9 +611,9 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(40, 10),
-                new ASet(40, 10),
-                new ASet(40, 10)
+                new ASet(42.5, 10),
+                new ASet(42.5, 10),
+                new ASet(42.5, 10)
             ])
         ]);
         this.addExercise(ExerciseEnum.TRICEP_PRESS_MACHINE, CategoryEnum.TRICEPS, "Exercise description goes here!", [
@@ -625,9 +625,9 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(185, 10),
-                new ASet(185, 10),
-                new ASet(185, 10)
+                new ASet(190, 10),
+                new ASet(190, 10),
+                new ASet(190, 10)
             ])
         ]);
         this.addExercise(ExerciseEnum.BENT_OVER_ROWS, CategoryEnum.BACK, "Exercise description goes here!", [
