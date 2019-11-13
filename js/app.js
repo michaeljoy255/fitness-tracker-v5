@@ -515,9 +515,9 @@ class Profile {
     seedExampleExercises() {
         console.log("Seeding exercises");
 
-        this.addExercise(ExerciseEnum.ELLIPTICAL, CategoryEnum.CARDIO, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
-            new Tags(TagsEnum.INTENSITY, "6/10"),
+        this.addExercise(ExerciseEnum.ELLIPTICAL, CategoryEnum.CARDIO, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.INTENSITY, "Medium"),
             new Tags(TagsEnum.RESISTENCE, "8/20"),
             new Tags(TagsEnum.INCLINE, "0/20")
         ], [
@@ -525,217 +525,217 @@ class Profile {
         ], [
             new Record(7, 0.5, null)
         ]);
-        this.addExercise(ExerciseEnum.ELLIPTICAL_INTERVAL, CategoryEnum.CARDIO, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
-            new Tags(TagsEnum.INTENSITY, "7/10"),
+        this.addExercise(ExerciseEnum.ELLIPTICAL_INTERVAL, CategoryEnum.CARDIO, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.INTENSITY, "High"),
             new Tags(TagsEnum.RESISTENCE, "8/20"),
             new Tags(TagsEnum.INCLINE, "0/20")
         ], [
             FieldsEnum.DURATION, FieldsEnum.DISTANCE
         ], [
-            new Record(20, 2, null)
+            new Record(24, 2, null)
         ]);
-        this.addExercise(ExerciseEnum.STRETCHING, CategoryEnum.MISC, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
-            new Tags(TagsEnum.INTENSITY, "5/10")
+        this.addExercise(ExerciseEnum.STRETCHING, CategoryEnum.MISC, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.INTENSITY, "Medium")
         ], [
             FieldsEnum.DURATION
         ], [
             new Record(9, null, null)
         ]);
-        this.addExercise(ExerciseEnum.FLAT_BENCH_PRESS, CategoryEnum.CHEST, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
-            new Tags(TagsEnum.BREAKS, "3m"),
-            new Tags(TagsEnum.TEMPO, "1.5s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+        this.addExercise(ExerciseEnum.FLAT_BENCH_PRESS, CategoryEnum.CHEST, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(122.5, 10),
+                new ASet(130, 10),
+                new ASet(130, 7),
+                new ASet(130, 7),
+                new ASet(130, 6)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.INCLINE_BENCH_PRESS, CategoryEnum.CHEST, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(75, 10),
+                new ASet(75, 8),
+                new ASet(75, 8),
+                new ASet(75, 8)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.DECLINE_BENCH_PRESS, CategoryEnum.CHEST, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
                 new ASet(125, 10),
-                new ASet(127.5, 10),
-                new ASet(130, 10)
-            ])
-        ]);
-        this.addExercise(ExerciseEnum.INCLINE_BENCH_PRESS, CategoryEnum.CHEST, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
-            new Tags(TagsEnum.BREAKS, "3m"),
-            new Tags(TagsEnum.TEMPO, "1.5s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
-        ], [
-            FieldsEnum.SETS
-        ], [
-            new Record(null, null, [
-                new ASet(75, 10),
-                new ASet(75, 10),
-                new ASet(75, 10),
-                new ASet(77.5, 10)
-            ])
-        ]);
-        this.addExercise(ExerciseEnum.DECLINE_BENCH_PRESS, CategoryEnum.CHEST, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
-            new Tags(TagsEnum.BREAKS, "3m"),
-            new Tags(TagsEnum.TEMPO, "1.5s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
-        ], [
-            FieldsEnum.SETS
-        ], [
-            new Record(null, null, [
                 new ASet(125, 10),
-                new ASet(127.5, 10),
-                new ASet(127.5, 10),
-                new ASet(127.5, 9)
+                new ASet(127.5, 9),
+                new ASet(130, 7)
             ])
         ]);
-        this.addExercise(ExerciseEnum.FLY_MACHINE_CHEST, CategoryEnum.CHEST, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.FLY_MACHINE_CHEST, CategoryEnum.CHEST, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m 30s"),
-            new Tags(TagsEnum.TEMPO, "1.5s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Slow"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(120, 10),
-                new ASet(120, 10),
-                new ASet(120, 9)
+                new ASet(110, 8),
+                new ASet(110, 7),
+                new ASet(110, 7)
             ])
         ]);
-        this.addExercise(ExerciseEnum.CABLE_TRICEP_PULLDOWNS, CategoryEnum.TRICEPS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.CABLE_TRICEP_PULLDOWNS, CategoryEnum.TRICEPS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(42.5, 10),
-                new ASet(42.5, 10),
-                new ASet(42.5, 10)
+                new ASet(47.5, 10),
+                new ASet(47.5, 10),
+                new ASet(47.5, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.TRICEP_PRESS_MACHINE, CategoryEnum.TRICEPS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.TRICEP_PRESS_MACHINE, CategoryEnum.TRICEPS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
                 new ASet(190, 10),
-                new ASet(190, 10),
-                new ASet(190, 10)
+                new ASet(150, 10),
+                new ASet(160, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.BENT_OVER_ROWS, CategoryEnum.BACK, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
-            new Tags(TagsEnum.BREAKS, "3m"),
-            new Tags(TagsEnum.TEMPO, "1.5s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+        this.addExercise(ExerciseEnum.BENT_OVER_ROWS, CategoryEnum.BACK, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(120, 10),
+                new ASet(122.5, 9),
+                new ASet(122.5, 10),
+                new ASet(125, 8),
+                new ASet(125, 8)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.SHRUGS, CategoryEnum.BACK, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(190, 10),
+                new ASet(190, 9),
+                new ASet(192.5, 9),
+                new ASet(192.5, 8)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.STIFF_LEG_DEADLIFTS, CategoryEnum.BACK, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(115, 10),
                 new ASet(120, 10),
                 new ASet(120, 10),
                 new ASet(120, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.SHRUGS, CategoryEnum.BACK, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
-            new Tags(TagsEnum.BREAKS, "3m"),
-            new Tags(TagsEnum.TEMPO, "1.5s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+        this.addExercise(ExerciseEnum.ASSISTED_PULL_UPS, CategoryEnum.BACK, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(190, 10),
-                new ASet(190, 9),
-                new ASet(190, 9),
-                new ASet(190, 10)
+                new ASet(-25, 10),
+                new ASet(-25, 10),
+                new ASet(-25, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.STIFF_LEG_DEADLIFTS, CategoryEnum.BACK, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
-            new Tags(TagsEnum.BREAKS, "3m"),
-            new Tags(TagsEnum.TEMPO, "1.5s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
-        ], [
-            FieldsEnum.SETS
-        ], [
-            new Record(null, null, [
-                new ASet(105, 10),
-                new ASet(105, 10),
-                new ASet(110, 10),
-                new ASet(115, 10)
-            ])
-        ]);
-        this.addExercise(ExerciseEnum.ASSISTED_PULL_UPS, CategoryEnum.BACK, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
-            new Tags(TagsEnum.BREAKS, "3m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
-        ], [
-            FieldsEnum.SETS
-        ], [
-            new Record(null, null, [
-                new ASet(25, 9),
-                new ASet(25, 9),
-                new ASet(25, 10)
-            ])
-        ]);
-        this.addExercise(ExerciseEnum.OVERHAND_CURLS, CategoryEnum.BICEPS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.OVERHAND_CURLS, CategoryEnum.BICEPS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "30s"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "6/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "Medium")
         ], [
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(30, 10),
-                new ASet(30, 10),
-                new ASet(30, 10)
+                new ASet(15, 10),
+                new ASet(15, 10),
+                new ASet(15, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.UNDERHAND_CURLS, CategoryEnum.BICEPS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.UNDERHAND_CURLS, CategoryEnum.BICEPS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "2m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(30, 8),
-                new ASet(30, 8),
+                new ASet(30, 7),
+                new ASet(30, 7),
                 new ASet(30, 7)
             ])
         ]);
-        this.addExercise(ExerciseEnum.HAMMER_CURLS, CategoryEnum.BICEPS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.HAMMER_CURLS, CategoryEnum.BICEPS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "2m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(30, 7),
-                new ASet(30, 7),
+                new ASet(30, 6),
+                new ASet(30, 6),
                 new ASet(30, 6)
             ])
         ]);
-        this.addExercise(ExerciseEnum.SIDE_RAISES, CategoryEnum.SHOULDERS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.SIDE_RAISES, CategoryEnum.SHOULDERS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "30s"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
@@ -745,11 +745,11 @@ class Profile {
                 new ASet(10, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.FRONT_RAISES, CategoryEnum.SHOULDERS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.FRONT_RAISES, CategoryEnum.SHOULDERS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "30s"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
@@ -759,11 +759,11 @@ class Profile {
                 new ASet(10, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.SHOULDER_PRESS_MACHINE, CategoryEnum.SHOULDERS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.SHOULDER_PRESS_MACHINE, CategoryEnum.SHOULDERS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m 30s"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
@@ -773,11 +773,11 @@ class Profile {
                 new ASet(60, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.LEG_PRESS_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.LEG_PRESS_MACHINE, CategoryEnum.LEGS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "6/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "Medium")
         ], [
             FieldsEnum.SETS
         ], [
@@ -787,11 +787,11 @@ class Profile {
                 new ASet(175, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.LEG_EXTENSION_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.LEG_EXTENSION_MACHINE, CategoryEnum.LEGS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "6/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "Medium")
         ], [
             FieldsEnum.SETS
         ], [
@@ -801,11 +801,11 @@ class Profile {
                 new ASet(90, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.LEG_CURL_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.LEG_CURL_MACHINE, CategoryEnum.LEGS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "6/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "Medium")
         ], [
             FieldsEnum.SETS
         ], [
@@ -815,11 +815,11 @@ class Profile {
                 new ASet(90, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.CALF_EXTENSION_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.CALF_EXTENSION_MACHINE, CategoryEnum.LEGS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "6/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "Medium")
         ], [
             FieldsEnum.SETS
         ], [
@@ -829,11 +829,11 @@ class Profile {
                 new ASet(175, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.STANDING_GLUTE_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.STANDING_GLUTE_MACHINE, CategoryEnum.LEGS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
@@ -843,11 +843,11 @@ class Profile {
                 new ASet(125, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.HIP_ABDUCTION_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.HIP_ABDUCTION_MACHINE, CategoryEnum.LEGS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "6/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "Medium")
         ], [
             FieldsEnum.SETS
         ], [
@@ -857,11 +857,11 @@ class Profile {
                 new ASet(200, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.HIP_ADDUCTION_MACHINE, CategoryEnum.LEGS, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.HIP_ADDUCTION_MACHINE, CategoryEnum.LEGS, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "6/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "Medium")
         ], [
             FieldsEnum.SETS
         ], [
@@ -871,11 +871,11 @@ class Profile {
                 new ASet(165, 10)
             ])
         ]);
-        this.addExercise(ExerciseEnum.ABDOMINAL_CRUNCH_MACHINE, CategoryEnum.CORE, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.ABDOMINAL_CRUNCH_MACHINE, CategoryEnum.CORE, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "2m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
@@ -886,11 +886,11 @@ class Profile {
                 new ASet(35, 25)
             ])
         ]);
-        this.addExercise(ExerciseEnum.OBLIQUE_SIDE_BEND, CategoryEnum.CORE, "Exercise description goes here!", [
-            new Tags(TagsEnum.NOTES, "Exercise notes go here!"),
+        this.addExercise(ExerciseEnum.OBLIQUE_SIDE_BEND, CategoryEnum.CORE, "", [
+            new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "1s"),
-            new Tags(TagsEnum.INTENSITY, "7/10")
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
         ], [
             FieldsEnum.SETS
         ], [
