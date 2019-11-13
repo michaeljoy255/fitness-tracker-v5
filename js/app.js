@@ -782,9 +782,9 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(175, 10),
-                new ASet(175, 10),
-                new ASet(175, 10)
+                new ASet(180, 10),
+                new ASet(180, 10),
+                new ASet(180, 10)
             ])
         ]);
         this.addExercise(ExerciseEnum.LEG_EXTENSION_MACHINE, CategoryEnum.LEGS, "", [
@@ -796,9 +796,9 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(90, 10),
-                new ASet(90, 10),
-                new ASet(90, 10)
+                new ASet(95, 10),
+                new ASet(95, 10),
+                new ASet(95, 10)
             ])
         ]);
         this.addExercise(ExerciseEnum.LEG_CURL_MACHINE, CategoryEnum.LEGS, "", [
@@ -810,40 +810,12 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(85, 10),
-                new ASet(85, 10),
+                new ASet(90, 10),
+                new ASet(90, 10),
                 new ASet(90, 10)
             ])
         ]);
         this.addExercise(ExerciseEnum.CALF_EXTENSION_MACHINE, CategoryEnum.LEGS, "", [
-            new Tags(TagsEnum.NOTES, ""),
-            new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "Normal"),
-            new Tags(TagsEnum.INTENSITY, "Medium")
-        ], [
-            FieldsEnum.SETS
-        ], [
-            new Record(null, null, [
-                new ASet(175, 10),
-                new ASet(175, 10),
-                new ASet(175, 10)
-            ])
-        ]);
-        this.addExercise(ExerciseEnum.STANDING_GLUTE_MACHINE, CategoryEnum.LEGS, "", [
-            new Tags(TagsEnum.NOTES, ""),
-            new Tags(TagsEnum.BREAKS, "1m"),
-            new Tags(TagsEnum.TEMPO, "Normal"),
-            new Tags(TagsEnum.INTENSITY, "High")
-        ], [
-            FieldsEnum.SETS
-        ], [
-            new Record(null, null, [
-                new ASet(125, 10),
-                new ASet(125, 10),
-                new ASet(125, 10)
-            ])
-        ]);
-        this.addExercise(ExerciseEnum.HIP_ABDUCTION_MACHINE, CategoryEnum.LEGS, "", [
             new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
             new Tags(TagsEnum.TEMPO, "Normal"),
@@ -857,6 +829,34 @@ class Profile {
                 new ASet(200, 10)
             ])
         ]);
+        this.addExercise(ExerciseEnum.STANDING_GLUTE_MACHINE, CategoryEnum.LEGS, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "High")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(130, 10),
+                new ASet(130, 10),
+                new ASet(130, 10)
+            ])
+        ]);
+        this.addExercise(ExerciseEnum.HIP_ABDUCTION_MACHINE, CategoryEnum.LEGS, "", [
+            new Tags(TagsEnum.NOTES, ""),
+            new Tags(TagsEnum.BREAKS, "1m"),
+            new Tags(TagsEnum.TEMPO, "Normal"),
+            new Tags(TagsEnum.INTENSITY, "Medium")
+        ], [
+            FieldsEnum.SETS
+        ], [
+            new Record(null, null, [
+                new ASet(205, 10),
+                new ASet(205, 10),
+                new ASet(205, 10)
+            ])
+        ]);
         this.addExercise(ExerciseEnum.HIP_ADDUCTION_MACHINE, CategoryEnum.LEGS, "", [
             new Tags(TagsEnum.NOTES, ""),
             new Tags(TagsEnum.BREAKS, "1m"),
@@ -866,9 +866,9 @@ class Profile {
             FieldsEnum.SETS
         ], [
             new Record(null, null, [
-                new ASet(165, 10),
-                new ASet(165, 10),
-                new ASet(165, 10)
+                new ASet(170, 10),
+                new ASet(175, 10),
+                new ASet(180, 10)
             ])
         ]);
         this.addExercise(ExerciseEnum.ABDOMINAL_CRUNCH_MACHINE, CategoryEnum.CORE, "", [
