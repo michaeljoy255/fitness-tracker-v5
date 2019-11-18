@@ -545,7 +545,7 @@ class Profile {
         ]);
         this.addExercise(ExerciseEnum.FLAT_BENCH_PRESS, CategoryEnum.CHEST, "", [
             new Tags(TagsEnum.NOTES, ""),
-            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.BREAKS, "3m"),
             new Tags(TagsEnum.TEMPO, "Normal"),
             new Tags(TagsEnum.INTENSITY, "High")
         ], [
@@ -560,7 +560,7 @@ class Profile {
         ]);
         this.addExercise(ExerciseEnum.INCLINE_BENCH_PRESS, CategoryEnum.CHEST, "", [
             new Tags(TagsEnum.NOTES, ""),
-            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.BREAKS, "3m"),
             new Tags(TagsEnum.TEMPO, "Normal"),
             new Tags(TagsEnum.INTENSITY, "High")
         ], [
@@ -575,7 +575,7 @@ class Profile {
         ]);
         this.addExercise(ExerciseEnum.DECLINE_BENCH_PRESS, CategoryEnum.CHEST, "", [
             new Tags(TagsEnum.NOTES, ""),
-            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.BREAKS, "3m"),
             new Tags(TagsEnum.TEMPO, "Normal"),
             new Tags(TagsEnum.INTENSITY, "High")
         ], [
@@ -632,7 +632,7 @@ class Profile {
         ]);
         this.addExercise(ExerciseEnum.BENT_OVER_ROWS, CategoryEnum.BACK, "", [
             new Tags(TagsEnum.NOTES, ""),
-            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.BREAKS, "3m"),
             new Tags(TagsEnum.TEMPO, "Normal"),
             new Tags(TagsEnum.INTENSITY, "High")
         ], [
@@ -647,7 +647,7 @@ class Profile {
         ]);
         this.addExercise(ExerciseEnum.SHRUGS, CategoryEnum.BACK, "", [
             new Tags(TagsEnum.NOTES, ""),
-            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.BREAKS, "3m"),
             new Tags(TagsEnum.TEMPO, "Normal"),
             new Tags(TagsEnum.INTENSITY, "High")
         ], [
@@ -662,7 +662,7 @@ class Profile {
         ]);
         this.addExercise(ExerciseEnum.STIFF_LEG_DEADLIFTS, CategoryEnum.BACK, "", [
             new Tags(TagsEnum.NOTES, ""),
-            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.BREAKS, "3m"),
             new Tags(TagsEnum.TEMPO, "Normal"),
             new Tags(TagsEnum.INTENSITY, "High")
         ], [
@@ -677,7 +677,7 @@ class Profile {
         ]);
         this.addExercise(ExerciseEnum.ASSISTED_PULL_UPS, CategoryEnum.BACK, "", [
             new Tags(TagsEnum.NOTES, ""),
-            new Tags(TagsEnum.BREAKS, "2m 30s"),
+            new Tags(TagsEnum.BREAKS, "3m"),
             new Tags(TagsEnum.TEMPO, "Normal"),
             new Tags(TagsEnum.INTENSITY, "High")
         ], [
