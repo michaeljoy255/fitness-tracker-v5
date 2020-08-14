@@ -1,5 +1,7 @@
 # fitness-tracker-v5
 
+_NOTE: Archiving Summer 2020._
+
 Fitness Tracker web tool for keeping track of workout progress.
 
 No special install requrements at this time.
